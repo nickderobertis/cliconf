@@ -18,7 +18,7 @@
         "package_name": "cliconf",
         "package_directory": "cliconf",
         "full_name": "Python CLI Configuration Framework",
-        "repo_name": "py-cli-conf",
+        "repo_name": "cliconf",
         "repo_username": "nickderobertis",
         "short_description": "Framework that lets you write CLIs with Typer that can also be configured via py-app-conf",
         "main_branch_name": "main",

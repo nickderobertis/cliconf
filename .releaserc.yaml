@@ -6,7 +6,7 @@ branches:
   - name: alpha
     prerelease: true
 
-repositoryUrl: https://github.com/nickderobertis/py-cli-conf
+repositoryUrl: https://github.com/nickderobertis/cliconf
 
 plugins:
   - "@semantic-release/commit-analyzer"
