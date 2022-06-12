@@ -1,15 +1,15 @@
 
 
-[![](https://codecov.io/gh/nickderobertis/py-cli-conf/branch/main/graph/badge.svg)](https://codecov.io/gh/nickderobertis/py-cli-conf)
+[![](https://codecov.io/gh/nickderobertis/cliconf/branch/main/graph/badge.svg)](https://codecov.io/gh/nickderobertis/cliconf)
 [![PyPI](https://img.shields.io/pypi/v/cliconf)](https://pypi.org/project/cliconf/)
 ![PyPI - License](https://img.shields.io/pypi/l/cliconf)
-[![Documentation](https://img.shields.io/badge/documentation-pass-green)](https://nickderobertis.github.io/py-cli-conf/)
+[![Documentation](https://img.shields.io/badge/documentation-pass-green)](https://nickderobertis.github.io/cliconf/)
 ![Tests Run on Ubuntu Python Versions](https://img.shields.io/badge/Tests%20Ubuntu%2FPython-3.8%20%7C%203.9%20%7C%203.10-blue)
 ![Tests Run on Macos Python Versions](https://img.shields.io/badge/Tests%20Macos%2FPython-3.8%20%7C%203.9%20%7C%203.10-blue)
-[![Github Repo](https://img.shields.io/badge/repo-github-informational)](https://github.com/nickderobertis/py-cli-conf/)
+[![Github Repo](https://img.shields.io/badge/repo-github-informational)](https://github.com/nickderobertis/cliconf/)
 
 
-#  py-cli-conf
+#  cliconf
 
 ## Overview
 
@@ -33,7 +33,7 @@ import cliconf
 
 See a
 [more in-depth tutorial here.](
-https://nickderobertis.github.io/py-cli-conf/tutorial.html
+https://nickderobertis.github.io/cliconf/tutorial.html
 )
 
 ## Development Status
@@ -63,5 +63,5 @@ Created by Nick DeRobertis. MIT License.
 
 See the
 [documentation here.](
-https://nickderobertis.github.io/py-cli-conf/
+https://nickderobertis.github.io/cliconf/
 )
