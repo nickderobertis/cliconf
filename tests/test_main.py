@@ -6,7 +6,7 @@ from click.testing import Result
 from cliconf.main import CLIConf
 from cliconf.testing import CLIRunner
 from tests import ext_click
-from tests.fixtures.typers import single_command_typer
+from tests.fixtures.cliconfs import single_command_cliconf
 
 runner = CLIRunner()
 
@@ -27,5 +27,5 @@ def run(instance: CLIConf, args: Sequence[str]) -> Result:
 
 
 def test_single_command_typer_reads_from_config():
-    result = run(single_command_typer, ["a", "2"])
+    result = run(single_command_cliconf, ["a", "2"])
     assert result.stdout == "a 2 45.6\n"

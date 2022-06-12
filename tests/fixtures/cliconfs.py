@@ -4,10 +4,10 @@ from cliconf.command import configure
 from cliconf.main import CLIConf
 from tests.fixtures.app_settings import SETTINGS_ONE
 
-single_command_typer = CLIConf(name="single_command")
+single_command_cliconf = CLIConf(name="single_command")
 
 
-@single_command_typer.command()
+@single_command_cliconf.command()
 @configure(settings=SETTINGS_ONE)
 def my_cli_func(
     a: str,
@@ -18,4 +18,4 @@ def my_cli_func(
 
 
 if __name__ == "__main__":
-    single_command_typer()
+    single_command_cliconf()
