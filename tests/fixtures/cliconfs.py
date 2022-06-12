@@ -1,6 +1,6 @@
 import typer
 
-from cliconf.command import configure
+from cliconf import configure
 from cliconf.main import CLIConf
 from tests.fixtures.app_settings import SETTINGS_ONE
 
