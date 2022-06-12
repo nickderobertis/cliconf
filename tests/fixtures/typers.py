@@ -1,9 +1,14 @@
 import typer
 
-single_command_typer = typer.Typer()
+from pycliconf.command import configure
+from pycliconf.main import CLIConf
+from tests.fixtures.app_settings import SETTINGS_ONE
+
+single_command_typer = CLIConf()
 
 
 @single_command_typer.command()
+@configure(settings=SETTINGS_ONE)
 def my_cli_func(
     a: str,
     b: int = typer.Argument(..., help="b help"),
