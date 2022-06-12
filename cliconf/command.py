@@ -13,7 +13,7 @@ from typer.main import get_command_name
 from cliconf.arg_store import ARGS_STORE
 
 
-def cli_conf_main(
+def _cli_conf_main(
     self: click.Command,
     args: Optional[Sequence[str]] = None,
     prog_name: Optional[str] = None,
@@ -42,7 +42,7 @@ def get_command(typer_instance: Typer) -> click.Command:
     """
     command = typer_get_command(typer_instance)
     # Override the main function to load config
-    command.main = types.MethodType(cli_conf_main, command)
+    command.main = types.MethodType(_cli_conf_main, command)
     return command
 
 
