@@ -2,7 +2,6 @@ from types import FunctionType
 from typing import Any, Dict, Optional, Sequence, Type
 
 from pyappconf import AppConfig, BaseConfig
-from pydantic import BaseConfig as PydanticBaseConfig
 from pydantic import create_model
 
 from cliconf.arg_store import ARGS_STORE
