@@ -14,7 +14,25 @@
   "applied_templates": [
     {
       "name": "copier-pypi-sphinx-flexlate",
-      "data": {},
+      "data": {
+        "package_name": "py-cli-conf",
+        "package_directory": "pycliconf",
+        "full_name": "Python CLI Configuration Framework",
+        "repo_name": "py-cli-conf",
+        "repo_username": "nickderobertis",
+        "short_description": "Framework that lets you write CLIs with Typer that can also be configured via py-app-conf",
+        "main_branch_name": "main",
+        "package_author": "Nick DeRobertis",
+        "author_email": "derobertis.nick@gmail.com",
+        "google_analytics_id": "",
+        "os_support": [
+          "ubuntu",
+          "macos"
+        ],
+        "minimum_python_version": "3.8",
+        "logo_url": "",
+        "install_packages": ""
+      },
       "version": "d8d93c97d6579aa7fcf2b9c58f1a10a274c6566e",
       "add_mode": "local",
       "root": "."
