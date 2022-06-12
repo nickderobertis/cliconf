@@ -1,5 +1,5 @@
 [tool.black]
-include = 'pycliconf.*\.pyi?$|tests.*\.pyi?$'
+include = 'cliconf.*\.pyi?$|tests.*\.pyi?$'
 
 [tool.isort]
 profile = "black"

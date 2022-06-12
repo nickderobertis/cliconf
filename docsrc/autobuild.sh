@@ -5,7 +5,7 @@
 # It requires that you have the watchmedo utility installed globally.
 # Run `pipx install watchdog[watchmedo]` to install.
 
-WATCH_FILES="source ../pycliconf ../README.md"
+WATCH_FILES="source ../cliconf ../README.md"
 
 echo "Starting documentation autoreloader watching $WATCH_FILES"
 watchmedo shell-command \

@@ -1,4 +1,4 @@
-Getting started with py-cli-conf
+Getting started with cliconf
 **********************************
 
 Install
@@ -6,7 +6,7 @@ Install
 
 Install via::
 
-    pip install py-cli-conf
+    pip install cliconf
 
 Usage
 =========
@@ -15,6 +15,6 @@ Some highlighted functionality.
 
 This is a simple example::
 
-    import pycliconf
+    import cliconf
 
 
