@@ -1,0 +1,7 @@
+cliconf
+=======
+
+.. toctree::
+   :maxdepth: 4
+
+   cliconf

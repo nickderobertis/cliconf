@@ -1,0 +1,43 @@
+cliconf package
+===============
+
+.. automodule:: cliconf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+cliconf.arg\_store module
+-------------------------
+
+.. automodule:: cliconf.arg_store
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+cliconf.command module
+----------------------
+
+.. automodule:: cliconf.command
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+cliconf.main module
+-------------------
+
+.. automodule:: cliconf.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+cliconf.testing module
+----------------------
+
+.. automodule:: cliconf.testing
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
