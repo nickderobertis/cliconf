@@ -28,9 +28,9 @@ def cli_conf_main(
     use_args = args or []
     context = self.make_context(prog_name, [*use_args])
     # It seems typer always provides prog_name, but for safety calculate a fallback
-    func_name = prog_name or _get_command_name(self.callback.__name__)
+    func_name = prog_name or _get_command_name(self.callback.__name__)  # type: ignore
     ARGS_STORE.add_command(func_name, use_args, context.params)
-    return super(type(self), self).main(
+    return super(type(self), self).main(  # type: ignore
         args, func_name, complete_var, standalone_mode, windows_expand_args, **extra
     )
 
