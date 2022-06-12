@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Sequence
 
 from pydantic import BaseModel, Field
 
@@ -23,9 +23,9 @@ class ArgumentStore(BaseModel):
 
     commands: Dict[str, CommandArgs] = Field(default_factory=dict)
 
-    def add_command(self, prog_name: str, args: List[str], params: Dict[str, Any]):
+    def add_command(self, prog_name: str, args: Sequence[str], params: Dict[str, Any]):
         self.commands[prog_name] = CommandArgs(
-            prog_name=prog_name, passed_args=args, params=params
+            prog_name=prog_name, passed_args=list(args), params=params
         )
 
     def remove_command(self, prog_name: str):

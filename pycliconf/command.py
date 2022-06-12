@@ -25,10 +25,13 @@ def cli_conf_main(
     """
     A modified version of click.Command's main function that records which arguments were passed
     """
-    context = self.make_context(prog_name, [*args])
-    ARGS_STORE.add_command(prog_name, args, context.params)
+    use_args = args or []
+    context = self.make_context(prog_name, [*use_args])
+    # It seems typer always provides prog_name, but for safety calculate a fallback
+    func_name = prog_name or _get_command_name(self.callback.__name__)
+    ARGS_STORE.add_command(func_name, use_args, context.params)
     return super(type(self), self).main(
-        args, prog_name, complete_var, standalone_mode, windows_expand_args, **extra
+        args, func_name, complete_var, standalone_mode, windows_expand_args, **extra
     )
 
 
