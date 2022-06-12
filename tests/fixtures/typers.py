@@ -4,7 +4,7 @@ from pycliconf.command import configure
 from pycliconf.main import CLIConf
 from tests.fixtures.app_settings import SETTINGS_ONE
 
-single_command_typer = CLIConf()
+single_command_typer = CLIConf(name="single_command")
 
 
 @single_command_typer.command()
