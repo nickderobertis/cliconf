@@ -1,13 +1,15 @@
 import functools
 from types import FunctionType
-from typing import Callable, Type
+from typing import Callable, Optional, Type
 
 from pyappconf import AppConfig, BaseConfig
 
 from cliconf.dynamic_config import create_and_load_dynamic_config
 
 
-def configure(settings: AppConfig, base_cls: Type[BaseConfig] = BaseConfig) -> Callable:
+def configure(
+    settings: AppConfig, base_cls: Optional[Type[BaseConfig]] = None
+) -> Callable:
     def actual_decorator(func: FunctionType):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
