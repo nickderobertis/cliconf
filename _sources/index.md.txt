@@ -1,4 +1,4 @@
-% py-cli-conf documentation master file, created by
+% cliconf documentation master file, created by
 %   copier-pypi-sphinx-flexlate.
 %   You can adapt this file completely to your liking, but it should at least
 %   contain the root `toctree` directive.

@@ -25,6 +25,38 @@ cliconf.command module
    :undoc-members:
    :show-inheritance:
 
+cliconf.command\_name module
+----------------------------
+
+.. automodule:: cliconf.command_name
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+cliconf.configure module
+------------------------
+
+.. automodule:: cliconf.configure
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+cliconf.dynamic\_config module
+------------------------------
+
+.. automodule:: cliconf.dynamic_config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+cliconf.ext\_pyappconf module
+-----------------------------
+
+.. automodule:: cliconf.ext_pyappconf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 cliconf.main module
 -------------------
 
