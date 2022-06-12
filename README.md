@@ -1,8 +1,8 @@
 
 
 [![](https://codecov.io/gh/nickderobertis/py-cli-conf/branch/main/graph/badge.svg)](https://codecov.io/gh/nickderobertis/py-cli-conf)
-[![PyPI](https://img.shields.io/pypi/v/py-cli-conf)](https://pypi.org/project/py-cli-conf/)
-![PyPI - License](https://img.shields.io/pypi/l/py-cli-conf)
+[![PyPI](https://img.shields.io/pypi/v/cliconf)](https://pypi.org/project/cliconf/)
+![PyPI - License](https://img.shields.io/pypi/l/cliconf)
 [![Documentation](https://img.shields.io/badge/documentation-pass-green)](https://nickderobertis.github.io/py-cli-conf/)
 ![Tests Run on Ubuntu Python Versions](https://img.shields.io/badge/Tests%20Ubuntu%2FPython-3.8%20%7C%203.9%20%7C%203.10-blue)
 ![Tests Run on Macos Python Versions](https://img.shields.io/badge/Tests%20Macos%2FPython-3.8%20%7C%203.9%20%7C%203.10-blue)
@@ -17,18 +17,18 @@ Framework that lets you write CLIs with Typer that can also be configured via py
 
 ## Getting Started
 
-Install `py-cli-conf`:
+Install `cliconf`:
 
 ```
-pip install py-cli-conf
+pip install cliconf
 ```
 
 A simple example:
 
 ```python
-import pycliconf
+import cliconf
 
-# Do something with pycliconf
+# Do something with cliconf
 ```
 
 See a

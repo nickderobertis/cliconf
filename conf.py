@@ -2,10 +2,10 @@
 # Sphinx configuration is in the docsrc folder
 
 # Main package name
-PACKAGE_NAME = "py-cli-conf"
+PACKAGE_NAME = "cliconf"
 
 # Directory name of package
-PACKAGE_DIRECTORY = "pycliconf"
+PACKAGE_DIRECTORY = "cliconf"
 
 # Name of Repo
 REPO_NAME = "py-cli-conf"

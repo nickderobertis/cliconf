@@ -10,7 +10,7 @@ from typer import Typer
 from typer.main import get_command as typer_get_command
 from typer.main import get_command_name
 
-from pycliconf.arg_store import ARGS_STORE
+from cliconf.arg_store import ARGS_STORE
 
 
 def cli_conf_main(

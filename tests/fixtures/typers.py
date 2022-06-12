@@ -1,7 +1,7 @@
 import typer
 
-from pycliconf.command import configure
-from pycliconf.main import CLIConf
+from cliconf.command import configure
+from cliconf.main import CLIConf
 from tests.fixtures.app_settings import SETTINGS_ONE
 
 single_command_typer = CLIConf(name="single_command")
