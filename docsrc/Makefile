@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = pycliconf
+SPHINXPROJ    = cliconf
 SOURCEDIR     = source
 BUILDDIR      = build
 

@@ -4,7 +4,7 @@ from click.testing import CliRunner as ClickCliRunner
 from click.testing import Result
 from typer.main import Typer
 
-from pycliconf.command import get_command
+from cliconf.command import get_command
 
 
 class CLIRunner(ClickCliRunner):

@@ -3,8 +3,8 @@ from typing import Sequence
 
 from click.testing import Result
 
-from pycliconf.main import CLIConf
-from pycliconf.testing import CLIRunner
+from cliconf.main import CLIConf
+from cliconf.testing import CLIRunner
 from tests import ext_click
 from tests.fixtures.typers import single_command_typer
 
