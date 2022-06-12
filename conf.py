@@ -8,7 +8,7 @@ PACKAGE_NAME = "cliconf"
 PACKAGE_DIRECTORY = "cliconf"
 
 # Name of Repo
-REPO_NAME = "py-cli-conf"
+REPO_NAME = "cliconf"
 
 # Github username of the user which owns the repo
 REPO_USERNAME = "nickderobertis"
