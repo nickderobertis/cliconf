@@ -26,9 +26,9 @@ def cli_conf_main(
     A modified version of click.Command's main function that records which arguments were passed
     """
     use_args = args or []
-    params = _create_passed_param_dict_from_command(self, prog_name, use_args)
-    # It seems typer always provides prog_name, but for safety calculate a fallback
     func_name = prog_name or _get_command_name(self.callback.__name__)  # type: ignore
+    params = _create_passed_param_dict_from_command(self, func_name, use_args)
+    # It seems typer always provides prog_name, but for safety calculate a fallback
     ARGS_STORE.add_command(func_name, use_args, params)
     return super(type(self), self).main(  # type: ignore
         args, func_name, complete_var, standalone_mode, windows_expand_args, **extra
