@@ -1,7 +1,7 @@
 import functools
 import types
 from types import FunctionType
-from typing import Any, Callable, Optional, Sequence, Type
+from typing import Any, Callable, Dict, Optional, Sequence, Type
 
 import click
 from pyappconf import AppConfig, BaseConfig
@@ -26,10 +26,10 @@ def cli_conf_main(
     A modified version of click.Command's main function that records which arguments were passed
     """
     use_args = args or []
-    context = self.make_context(prog_name, [*use_args])
+    params = _create_passed_param_dict_from_command(self, prog_name, use_args)
     # It seems typer always provides prog_name, but for safety calculate a fallback
     func_name = prog_name or _get_command_name(self.callback.__name__)  # type: ignore
-    ARGS_STORE.add_command(func_name, use_args, context.params)
+    ARGS_STORE.add_command(func_name, use_args, params)
     return super(type(self), self).main(  # type: ignore
         args, func_name, complete_var, standalone_mode, windows_expand_args, **extra
     )
@@ -55,7 +55,7 @@ def configure(settings: AppConfig, base_cls: Type[BaseConfig] = BaseConfig) -> C
             args_kwargs.update(kwargs)
             # Get user passed args from command line via args store
             args_store = ARGS_STORE[_get_command_name(func.__name__)]
-            user_kwargs = args_store.passed_as_kwargs
+            user_kwargs = args_store.params
             # Create a BaseConfig instance based off the function kwargs
             DynamicConfig = create_model(
                 f"{func.__name__}_Config",
@@ -75,3 +75,17 @@ def configure(settings: AppConfig, base_cls: Type[BaseConfig] = BaseConfig) -> C
 
 def _get_command_name(name: str) -> str:
     return get_command_name(name.strip())
+
+
+def _create_passed_param_dict_from_command(
+    command: click.Command, prog_name: str, args: Sequence[str]
+) -> Dict[str, Any]:
+    context = command.make_context(prog_name, [*args])
+    parser = command.make_parser(context)
+    opts, _, param_order = parser.parse_args(args=[*args])
+    # Reorder the opts dict to match the order of the command's params
+    out_opts: Dict[str, Any] = {}
+    for argument in param_order:
+        if argument.name in opts:
+            out_opts[argument.name] = opts[argument.name]
+    return out_opts

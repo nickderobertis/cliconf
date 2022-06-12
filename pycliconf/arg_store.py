@@ -8,13 +8,6 @@ class CommandArgs(BaseModel):
     passed_args: List[Any]
     params: Dict[str, Any]
 
-    @property
-    def passed_as_kwargs(self) -> Dict[str, Any]:
-        # TODO: Need a more resilient way to get the kwargs
-        #  This will fail when multiple arguments have the same value,
-        #  or when any passed value matches a kwarg default
-        return {k: v for k, v in self.params.items() if str(v) in self.passed_args}
-
 
 class ArgumentStore(BaseModel):
     """
