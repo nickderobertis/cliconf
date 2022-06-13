@@ -6,7 +6,10 @@ from click.testing import Result
 from cliconf.main import CLIConf
 from cliconf.testing import CLIRunner
 from tests import ext_click
-from tests.fixtures.cliconfs import single_command_cliconf
+from tests.fixtures.cliconfs import (
+    single_command_py_cliconf,
+    single_command_yaml_cliconf,
+)
 
 runner = CLIRunner()
 
@@ -26,12 +29,17 @@ def run(instance: CLIConf, args: Sequence[str]) -> Result:
     return result
 
 
-def test_single_command_typer_reads_from_config():
-    result = run(single_command_cliconf, ["a", "2"])
+def test_single_command_typer_reads_from_yaml_config():
+    result = run(single_command_yaml_cliconf, ["a", "2"])
+    assert result.stdout == "a 2 45.6\n"
+
+
+def test_single_command_typer_reads_py_config():
+    result = run(single_command_py_cliconf, ["a", "2"])
     assert result.stdout == "a 2 45.6\n"
 
 
 def test_single_command_typer_reads_from_environment_over_config(monkeypatch):
     monkeypatch.setenv("MYAPP_C", "98.3")
-    result = run(single_command_cliconf, ["a", "2"])
+    result = run(single_command_yaml_cliconf, ["a", "2"])
     assert result.stdout == "a 2 98.3\n"

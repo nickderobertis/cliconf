@@ -31,4 +31,4 @@ def create_and_load_dynamic_config(
         _settings=settings,
     )
     # Load the config, overriding with any user passed args
-    return DynamicConfig.load(model_kwargs=user_kwargs)
+    return DynamicConfig.load_or_create(model_kwargs=user_kwargs)
