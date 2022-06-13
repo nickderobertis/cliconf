@@ -15,4 +15,8 @@ SETTINGS_TWO_PY = AppConfig(
     config_name="two",
     custom_config_folder=CONFIGS_DIR,
     default_format=ConfigFormats.PY,
+    py_config_imports=[
+        "from tests.fixtures.cliconfs import my_cli_func",
+        "DynamicConfig = my_cli_func.model_cls",
+    ],
 )

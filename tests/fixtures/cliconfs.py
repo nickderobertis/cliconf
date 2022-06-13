@@ -22,8 +22,8 @@ def my_cli_func(
 single_command_py_cliconf = CLIConf(name="single_command_py")
 
 
-def default_func_for_single_command_py(c: float):
-    print(f"default {c}")
+def default_func_for_single_command_py(c: float) -> str:
+    return f"default {c}"
 
 
 @single_command_py_cliconf.command()
@@ -32,7 +32,7 @@ def my_cli_func(
     a: str,
     b: int = typer.Argument(..., help="b help"),
     c: float = typer.Option(3.2, help="c help"),
-    d: Callable[[float], None] = default_func_for_single_command_py,
+    d: Callable[[float], str] = default_func_for_single_command_py,
 ):
     print(a, b, c, d(c))
 

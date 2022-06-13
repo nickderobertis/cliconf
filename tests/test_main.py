@@ -36,7 +36,7 @@ def test_single_command_typer_reads_from_yaml_config():
 
 def test_single_command_typer_reads_py_config():
     result = run(single_command_py_cliconf, ["a", "2"])
-    assert result.stdout == "a 2 45.6\n"
+    assert result.stdout == "a 2 123.4 custom 123.4\n"
 
 
 def test_single_command_typer_reads_from_environment_over_config(monkeypatch):
