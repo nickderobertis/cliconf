@@ -1,9 +1,11 @@
 import inspect
+import typing
 from types import FunctionType
 from typing import Any, Dict, Optional, Sequence, Tuple, Type
 
 from pyappconf import AppConfig, BaseConfig
 from pydantic import create_model
+from typing_extensions import TypeGuard
 
 from cliconf.arg_store import ARGS_STORE
 from cliconf.command_name import get_command_name
@@ -15,6 +17,7 @@ def create_dynamic_config_class_from_function(
     func: FunctionType,
     settings: AppConfig,
     base_cls: Optional[Type[BaseConfig]] = None,
+    make_optional: bool = True,
 ) -> Type[BaseConfig]:
     """
     Create a BaseConfig class from a function.
@@ -36,10 +39,17 @@ def create_dynamic_config_class_from_function(
     defaults = (...,) * non_default_args + defaults
 
     keyword_only_params = {
-        param: kwonlydefaults.get(param, Any) for param in kwonlyargs
+        param: (
+            _extract_type(annotations.get(param), make_optional),
+            _extract_default(kwonlydefaults.get(param), make_optional),
+        )
+        for param in kwonlyargs
     }
     params = {
-        param: (annotations.get(param, Any), _extract_default(default))
+        param: (
+            _extract_type(annotations.get(param), make_optional),
+            _extract_default(default, make_optional),
+        )
         for param, default in zip(args, defaults)
     }
 
@@ -91,7 +101,32 @@ def create_and_load_dynamic_config(
     return DynamicConfig.load_or_create(model_kwargs=user_kwargs), DynamicConfig
 
 
-def _extract_default(value: Any) -> Any:
+def _extract_default(value: Any, make_optional: bool) -> Any:
+    underlying_value = _extract_from_typer_parameter_info_if_necessary(value)
+    if not make_optional:
+        return underlying_value
+    return underlying_value if underlying_value is not ... else None
+
+
+def _extract_from_typer_parameter_info_if_necessary(value: Any) -> Any:
     if is_typer_parameter_info(value):
         return value.default
     return value
+
+
+def _extract_type(typ: Optional[type], make_optional: bool) -> type:
+    if typ is None:
+        return Any
+
+    if not make_optional:
+        return typ
+
+    if _is_optional(typ):
+        return typ
+
+    # Wrap type in Optional if it is not already
+    return Optional[typ]
+
+
+def _is_optional(typ: type) -> TypeGuard[Type[Optional[Any]]]:
+    return typing.get_origin(typ) is typing.Union and type(None) in typing.get_args(typ)

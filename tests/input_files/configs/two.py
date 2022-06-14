@@ -7,5 +7,4 @@ def custom_d_func(c: float) -> str:
     return f"custom {c}"
 
 
-# TODO: should allow putting ... for required arguments, as they will never be used anyway
-config = DynamicConfig(a="", b=1, c=123.4, d=custom_d_func)
+config = DynamicConfig(c=123.4, d=custom_d_func)

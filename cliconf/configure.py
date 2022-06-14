@@ -32,10 +32,14 @@ class _ModelContainer:
 
 
 def configure(
-    settings: AppConfig, base_cls: Optional[Type[BaseConfig]] = None
+    settings: AppConfig,
+    base_cls: Optional[Type[BaseConfig]] = None,
+    make_fields_optional: bool = True,
 ) -> Callable:
     def actual_decorator(func: FunctionType):
-        model_cls = create_dynamic_config_class_from_function(func, settings, base_cls)
+        model_cls = create_dynamic_config_class_from_function(
+            func, settings, base_cls, make_optional=make_fields_optional
+        )
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
