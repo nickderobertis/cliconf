@@ -1,13 +1,11 @@
 import functools
 import inspect
-from dataclasses import dataclass
 from types import FunctionType
 from typing import Callable, List, Optional, Type
 
 from pyappconf import AppConfig, BaseConfig
 
 from cliconf.dynamic_config import (
-    create_and_load_dynamic_config,
     create_dynamic_config_class_from_function,
     filter_func_args_and_kwargs_to_get_user_passed_data,
 )

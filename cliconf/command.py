@@ -7,7 +7,6 @@ from typer.main import get_command as typer_get_command
 
 from cliconf.arg_store import ARGS_STORE
 from cliconf.command_name import get_command_name
-from cliconf.ext_typer import get_arg_names_that_can_be_processed_by_typer
 
 
 def get_command(typer_instance: Typer) -> click.Command:
