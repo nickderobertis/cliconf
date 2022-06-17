@@ -1,5 +1,6 @@
 import inspect
 import typing
+import warnings
 from types import FunctionType
 from typing import Any, Dict, Optional, Sequence, Type
 
@@ -53,14 +54,22 @@ def create_dynamic_config_class_from_function(
         for param, default in zip(args, defaults)
     }
 
-    return create_model(
-        f"{func.__name__}_Config",
-        __base__=base_cls,
-        **params,
-        **keyword_only_params,
-        settings=settings,
-        _settings=settings,
-    )
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            action="ignore",
+            category=RuntimeWarning,
+            message='fields may not start with an underscore, ignoring "_settings"',
+        )
+
+        model_cls = create_model(
+            f"{func.__name__}_Config",
+            __base__=base_cls,
+            **params,
+            **keyword_only_params,
+            settings=settings,
+            _settings=settings,
+        )
+    return model_cls
 
 
 def filter_func_args_and_kwargs_to_get_user_passed_data(
