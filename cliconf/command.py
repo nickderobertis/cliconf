@@ -1,7 +1,10 @@
+import os
+import sys
 import types
-from typing import Any, Dict, Optional, Sequence
+from typing import Any, Dict, List, Optional, Sequence
 
 import click
+from click.utils import _expand_args
 from typer import Typer
 from typer.main import get_command as typer_get_command
 
@@ -32,7 +35,7 @@ def _cli_conf_main(
     """
     A modified version of click.Command's main function that records which arguments were passed
     """
-    use_args = args or []
+    use_args = _get_arguments_from_passed_or_argv(args)
     func_name = prog_name or get_command_name(self.callback.__name__)  # type: ignore
     params = _create_passed_param_dict_from_command(self, func_name, use_args)
     # It seems typer always provides prog_name, but for safety calculate a fallback
@@ -43,7 +46,9 @@ def _cli_conf_main(
 
 
 def _create_passed_param_dict_from_command(
-    command: click.Command, prog_name: str, args: Sequence[str]
+    command: click.Command,
+    prog_name: str,
+    args: Sequence[str],
 ) -> Dict[str, Any]:
     context = command.make_context(prog_name, [*args])
     parser = command.make_parser(context)
@@ -54,3 +59,25 @@ def _create_passed_param_dict_from_command(
         if argument.name in opts:
             out_opts[argument.name] = opts[argument.name]
     return out_opts
+
+
+def _get_arguments_from_passed_or_argv(
+    args: Optional[Sequence[str]] = None,
+) -> List[str]:
+    """
+    Returns the arguments passed to the command.
+
+    Note: Mostly adapted from click.BaseCommand.main
+    :param args:
+    :return:
+    """
+    if args is not None:
+        return list(args)
+
+    args = sys.argv[1:]
+
+    if os.name == "nt":
+        # It's not ideal to be using a private method, but want to make sure
+        # it works exactly the same for param extraction as how Click handles it
+        return _expand_args(args)
+    return args
