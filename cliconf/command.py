@@ -4,6 +4,7 @@ import types
 from typing import Any, Dict, List, Optional, Sequence
 
 import click
+from click.exceptions import Exit
 from click.utils import _expand_args
 from typer import Typer
 from typer.main import get_command as typer_get_command
@@ -50,7 +51,13 @@ def _create_passed_param_dict_from_command(
     prog_name: str,
     args: Sequence[str],
 ) -> Dict[str, Any]:
-    context = command.make_context(prog_name, [*args])
+    # Click's Command.make_context will raise Exit if the arguments are invalid
+    # Now we are parsing the arguments before click does, so we must handle the Exit.
+    # Here we just exit with the exit code, just as Click does in standalone_mode
+    try:
+        context = command.make_context(prog_name, [*args])
+    except Exit as e:
+        sys.exit(e.exit_code)
     parser = command.make_parser(context)
     opts, _, param_order = parser.parse_args(args=[*args])
     # Reorder the opts dict to match the order of the command's params

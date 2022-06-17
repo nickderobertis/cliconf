@@ -34,6 +34,15 @@ def test_single_command_typer_reads_from_yaml_config():
     assert result.stdout == "a 2 45.6\n"
 
 
+def test_single_command_cliconf_prints_help():
+    result = run(single_command_yaml_cliconf, ["--help"])
+    assert "A  [required]" in result.stdout
+    assert "B  b help  [required]" in result.stdout
+    assert "--c FLOAT" in result.stdout
+    assert "c help  [default: 3.2]" in result.stdout
+    assert "--help" in result.stdout
+
+
 def test_single_command_typer_reads_py_config():
     result = run(single_command_py_cliconf, ["a", "2"])
     assert result.stdout == "a 2 123.4 custom 123.4\n"
