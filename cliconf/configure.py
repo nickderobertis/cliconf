@@ -7,9 +7,9 @@ from pyappconf import AppConfig, BaseConfig
 
 from cliconf.dynamic_config import (
     create_dynamic_config_class_from_function,
-    dynamic_model_class_name,
     filter_func_args_and_kwargs_to_get_user_passed_data,
 )
+from cliconf.dynamic_config_name import dynamic_model_class_name
 from cliconf.ext_typer import get_arg_names_that_can_be_processed_by_typer
 from cliconf.settings import DEFAULT_SETTINGS, CLIConfSettings
 
@@ -36,12 +36,9 @@ def configure(
     cliconf_settings: CLIConfSettings = DEFAULT_SETTINGS,
 ) -> Callable:
     def actual_decorator(func: FunctionType):
-        adjusted_pyappconf_settings = _add_dynamic_config_import_to_settings(
-            pyappconf_settings, func
-        )
         model_cls = create_dynamic_config_class_from_function(
             func,
-            adjusted_pyappconf_settings,
+            pyappconf_settings,
             cliconf_settings.base_cls,
             make_optional=cliconf_settings.make_fields_optional,
         )
@@ -61,7 +58,7 @@ def configure(
 
         # Also attach the settings to the function, so it can be used by the typer instance
         # to customize the options to add the --config-gen option
-        wrapper.pyappconf_settings = adjusted_pyappconf_settings
+        wrapper.pyappconf_settings = pyappconf_settings
         wrapper.cliconf_settings = cliconf_settings
 
         # Override call signature to exclude any variables that cannot be processed by typer
@@ -79,18 +76,3 @@ def configure(
         return wrapper
 
     return actual_decorator
-
-
-def _add_dynamic_config_import_to_settings(
-    pyappconf_settings: AppConfig, func: FunctionType
-) -> AppConfig:
-    model_class_name = dynamic_model_class_name(func)
-    py_config_dynamic_config_import = f"{model_class_name} = {func.__name__}.model_cls"
-    if pyappconf_settings.py_config_imports is None:
-        new_py_config_imports = [py_config_dynamic_config_import]
-    else:
-        new_py_config_imports = [
-            *pyappconf_settings.py_config_imports,
-            py_config_dynamic_config_import,
-        ]
-    return pyappconf_settings.copy(py_config_imports=new_py_config_imports)

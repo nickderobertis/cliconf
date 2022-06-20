@@ -1,9 +1,11 @@
+from types import FunctionType
 from typing import Any, Dict, Sequence, Type
 
 import click
 from click import Context, Parameter
 from pyappconf import BaseConfig, ConfigFormats
 
+from cliconf.ext_pyappconf import save_model
 from cliconf.settings import DEFAULT_SETTINGS
 
 
@@ -11,6 +13,7 @@ def create_generate_config_option(
     supported_formats: Sequence[ConfigFormats],
     default_format: ConfigFormats,
     model_cls: Type[BaseConfig],
+    func: FunctionType,
     option_name: str = DEFAULT_SETTINGS.generate_config_option_name,
 ) -> click.Option:
     def gen_config(ctx: Context, param: Parameter, value: str) -> None:
@@ -26,7 +29,7 @@ def create_generate_config_option(
             else:
                 model_obj = model_cls()
             click.echo(f"Saving config to {model_obj.settings.config_location}")
-            model_obj.save()
+            save_model(model_obj, func)
             ctx.exit()
 
     opt_flag = [f"--{option_name}"]

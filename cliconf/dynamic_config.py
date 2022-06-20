@@ -10,6 +10,7 @@ from typing_extensions import TypeGuard
 
 from cliconf.arg_store import ARGS_STORE
 from cliconf.command_name import get_command_name
+from cliconf.dynamic_config_name import dynamic_model_class_name
 from cliconf.ext_pyappconf import create_cli_base_config_class
 from cliconf.ext_typer import is_typer_parameter_info
 
@@ -70,14 +71,6 @@ def create_dynamic_config_class_from_function(
             _settings=settings,
         )
     return model_cls
-
-
-def dynamic_model_class_name(func: FunctionType) -> str:
-    # Convert the name of the function from snake_case to PascalCase
-    func_in_class_style_name = "".join(
-        part.title() for part in func.__name__.split("_")
-    )
-    return f"{func_in_class_style_name}Config"
 
 
 def filter_func_args_and_kwargs_to_get_user_passed_data(

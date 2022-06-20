@@ -34,6 +34,7 @@ def get_command(typer_instance: Typer) -> click.Command:
             pyappconf_settings.supported_formats,
             pyappconf_settings.default_format,
             model_cls,
+            command.callback,
             cliconf_settings.generate_config_option_name,
         )
     )

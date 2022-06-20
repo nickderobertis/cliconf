@@ -2,6 +2,7 @@ from typing import Callable
 
 from pyappconf import BaseConfig
 
+from cliconf.ext_pyappconf import save_model
 from tests.fixtures.app_settings import SETTINGS_ONE_YAML, SETTINGS_TWO_PY
 from tests.fixtures.cliconfs import (
     default_func_for_single_command_py,
@@ -30,7 +31,7 @@ def generate_config_two_py():
     current_folder = ConfigTwo._settings.custom_config_folder
     settings = ConfigTwo._settings.copy(custom_config_folder=current_folder / "plain")
     obj = ConfigTwo(settings=settings)
-    obj.save()
+    save_model(obj, my_cli_func_two_py)
 
 
 def generate_config_two_py_with_overrides():
@@ -42,7 +43,7 @@ def generate_config_two_py_with_overrides():
         py_config_imports=new_imports, custom_config_folder=current_folder / "overrides"
     )
     obj = ConfigTwo(c=123.4, d=custom_d_func, settings=settings)
-    obj.save()
+    save_model(obj, my_cli_func_two_py)
 
 
 if __name__ == "__main__":
