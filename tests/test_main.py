@@ -12,6 +12,7 @@ from tests.fixtures.cliconfs import (
     single_command_py_cliconf,
     single_command_py_cliconf_in_temp_dir,
     single_command_yaml_cliconf,
+    single_command_yaml_cliconf_in_temp_dir,
 )
 
 runner = CLIRunner()
@@ -69,3 +70,17 @@ def test_single_command_cliconf_writes_config_file_py(
         input_file = PLAIN_CONFIGS_DIR / file_name
         output_file = temp_path / file_name
         assert input_file.read_text() == output_file.read_text()
+
+
+def test_single_command_cliconf_writes_config_file_yaml(
+    single_command_yaml_cliconf_in_temp_dir: Tuple[CLIConf, Path]
+):
+    cliconf_obj, temp_path = single_command_yaml_cliconf_in_temp_dir
+    result = run(cliconf_obj, ["--config-gen"])
+    assert "Saving config to" in result.stdout
+
+    # Check that generated files are the same as in input_files
+    file_name = "one.yaml"
+    input_file = PLAIN_CONFIGS_DIR / file_name
+    output_file = temp_path / file_name
+    assert input_file.read_text() == output_file.read_text()

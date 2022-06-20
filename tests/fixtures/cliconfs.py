@@ -22,6 +22,24 @@ def my_cli_func_one_yaml(
     print(a, b, c)
 
 
+@pytest.fixture
+def single_command_yaml_cliconf_in_temp_dir() -> Tuple[CLIConf, Path]:
+    with create_temp_path() as temp_path:
+        settings = SETTINGS_ONE_YAML.copy(custom_config_folder=temp_path)
+        temp_dir_cliconf = CLIConf(name="single_command_yaml_in_temp_dir")
+
+        @temp_dir_cliconf.command()
+        @configure(pyappconf_settings=settings)
+        def my_cli_func_one_yaml(
+            a: str,
+            b: int = typer.Argument(..., help="b help"),
+            c: float = typer.Option(3.2, help="c help"),
+        ):
+            print(a, b, c)
+
+        yield temp_dir_cliconf, temp_path
+
+
 single_command_py_cliconf = CLIConf(name="single_command_py")
 
 

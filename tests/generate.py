@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Optional
 
 from pyappconf import BaseConfig
 
@@ -14,13 +14,23 @@ from tests.fixtures.cliconfs import (
 class ConfigOne(BaseConfig):
     a: str
     b: int
-    c: float = 45.6
+    c: float = 3.2
 
     _settings = SETTINGS_ONE_YAML
 
 
+class ConfigOneOptional(ConfigOne):
+    a: Optional[str] = None
+    b: Optional[int] = None
+
+
 def generate_config_one():
-    ConfigOne(a="a from config", b=1000).save()
+    settings = ConfigOne._settings.copy(custom_config_folder=PLAIN_CONFIGS_DIR)
+    ConfigOneOptional(settings=settings).save()
+
+
+def generate_config_one_with_overrides():
+    ConfigOne(a="a from config", b=1000, c=45.6).save()
 
 
 def custom_d_func(c: float) -> str:
@@ -47,5 +57,6 @@ def generate_config_two_py_with_overrides():
 
 if __name__ == "__main__":
     generate_config_one()
+    generate_config_one_with_overrides()
     generate_config_two_py()
     generate_config_two_py_with_overrides()
