@@ -4,7 +4,6 @@ import types
 from typing import Any, Dict, List, Optional, Sequence, Type
 
 import click
-from click import Context, Parameter
 from click.exceptions import Exit
 from click.utils import _expand_args
 from pyappconf import AppConfig, BaseConfig

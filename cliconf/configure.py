@@ -1,7 +1,7 @@
 import functools
 import inspect
 from types import FunctionType
-from typing import Callable, List, Optional, Type
+from typing import Callable, List, Type
 
 from pyappconf import AppConfig, BaseConfig
 
@@ -9,7 +9,6 @@ from cliconf.dynamic_config import (
     create_dynamic_config_class_from_function,
     filter_func_args_and_kwargs_to_get_user_passed_data,
 )
-from cliconf.dynamic_config_name import dynamic_model_class_name
 from cliconf.ext_typer import get_arg_names_that_can_be_processed_by_typer
 from cliconf.settings import DEFAULT_SETTINGS, CLIConfSettings
 
