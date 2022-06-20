@@ -3,9 +3,9 @@ from tests.fixtures.cliconfs import (
     my_cli_func_two_py,
 )
 
-my_cli_func_two_py_Config = my_cli_func_two_py.model_cls
+MyCliFuncTwoPyConfig = my_cli_func_two_py.model_cls
 
-config = my_cli_func_two_py_Config(
+config = MyCliFuncTwoPyConfig(
     a=None,
     b=None,
     c=3.2,

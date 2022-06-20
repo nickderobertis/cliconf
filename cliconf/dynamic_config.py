@@ -73,7 +73,11 @@ def create_dynamic_config_class_from_function(
 
 
 def dynamic_model_class_name(func: FunctionType) -> str:
-    return f"{func.__name__}_Config"
+    # Convert the name of the function from snake_case to PascalCase
+    func_in_class_style_name = "".join(
+        part.title() for part in func.__name__.split("_")
+    )
+    return f"{func_in_class_style_name}Config"
 
 
 def filter_func_args_and_kwargs_to_get_user_passed_data(
