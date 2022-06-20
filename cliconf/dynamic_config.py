@@ -2,7 +2,7 @@ import inspect
 import typing
 import warnings
 from types import FunctionType
-from typing import Any, Dict, Optional, Sequence, Type
+from typing import Any, Dict, Optional, Sequence, Type, no_type_check
 
 from pyappconf import AppConfig, BaseConfig
 from pydantic import create_model
@@ -15,6 +15,7 @@ from cliconf.ext_pyappconf import create_cli_base_config_class
 from cliconf.ext_typer import is_typer_parameter_info
 
 
+@no_type_check
 def create_dynamic_config_class_from_function(
     func: FunctionType,
     settings: AppConfig,
@@ -99,6 +100,7 @@ def _extract_from_typer_parameter_info_if_necessary(value: Any) -> Any:
     return value
 
 
+@no_type_check
 def _extract_type(typ: Optional[type], make_optional: bool) -> type:
     if typ is None:
         return Any

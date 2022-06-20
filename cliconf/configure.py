@@ -54,12 +54,12 @@ def configure(
 
         # Attach the generated config model class to the function, so it can be imported in
         # the py config format
-        wrapper.model_cls = model_cls
+        wrapper.model_cls = model_cls  # type: ignore
 
         # Also attach the settings to the function, so it can be used by the typer instance
         # to customize the options to add the --config-gen option
-        wrapper.pyappconf_settings = pyappconf_settings
-        wrapper.cliconf_settings = cliconf_settings
+        wrapper.pyappconf_settings = pyappconf_settings  # type: ignore
+        wrapper.cliconf_settings = cliconf_settings  # type: ignore
 
         # Override call signature to exclude any variables that cannot be processed by typer
         # Otherwise typer will fail while trying to create the click command.
@@ -71,7 +71,7 @@ def configure(
                 val for name, val in sig.parameters.items() if name in typer_args
             )
         )
-        wrapper.__signature__ = typer_sig
+        wrapper.__signature__ = typer_sig  # type: ignore
 
         return wrapper
 
