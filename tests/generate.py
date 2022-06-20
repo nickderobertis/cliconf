@@ -3,6 +3,7 @@ from typing import Callable
 from pyappconf import BaseConfig
 
 from cliconf.ext_pyappconf import save_model
+from tests.config import OVERRIDES_CONFIGS_DIR, PLAIN_CONFIGS_DIR
 from tests.fixtures.app_settings import SETTINGS_ONE_YAML, SETTINGS_TWO_PY
 from tests.fixtures.cliconfs import (
     default_func_for_single_command_py,
@@ -28,19 +29,17 @@ def custom_d_func(c: float) -> str:
 
 def generate_config_two_py():
     ConfigTwo = my_cli_func_two_py.model_cls
-    current_folder = ConfigTwo._settings.custom_config_folder
-    settings = ConfigTwo._settings.copy(custom_config_folder=current_folder / "plain")
+    settings = ConfigTwo._settings.copy(custom_config_folder=PLAIN_CONFIGS_DIR)
     obj = ConfigTwo(settings=settings)
     save_model(obj, my_cli_func_two_py)
 
 
 def generate_config_two_py_with_overrides():
     ConfigTwo = my_cli_func_two_py.model_cls
-    current_folder = ConfigTwo._settings.custom_config_folder
     current_imports = ConfigTwo._settings.py_config_imports
     new_imports = [*current_imports, "from tests.generate import custom_d_func"]
     settings = ConfigTwo._settings.copy(
-        py_config_imports=new_imports, custom_config_folder=current_folder / "overrides"
+        py_config_imports=new_imports, custom_config_folder=OVERRIDES_CONFIGS_DIR
     )
     obj = ConfigTwo(c=123.4, d=custom_d_func, settings=settings)
     save_model(obj, my_cli_func_two_py)
