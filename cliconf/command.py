@@ -1,19 +1,50 @@
-import functools
+import os
+import sys
 import types
-from types import FunctionType
-from typing import Any, Callable, Dict, Optional, Sequence, Type
+from typing import Any, Dict, List, Optional, Sequence, Type
 
 import click
+from click import Context, Parameter
+from click.exceptions import Exit
+from click.utils import _expand_args
 from pyappconf import AppConfig, BaseConfig
-from pydantic import create_model
 from typer import Typer
 from typer.main import get_command as typer_get_command
-from typer.main import get_command_name
 
 from cliconf.arg_store import ARGS_STORE
+from cliconf.command_name import get_command_name
+from cliconf.options import create_generate_config_option
+from cliconf.settings import CLIConfSettings
 
 
-def cli_conf_main(
+def get_command(typer_instance: Typer) -> click.Command:
+    """
+    Extends typer's get_command function to modify the created click.Command instance
+    to inspect the passed arguments and load from config.
+    """
+    command = typer_get_command(typer_instance)
+    # Add an option to generate the pyappconf config file, optionally providing a format
+    # TODO: I don't think this approach will work for command groups, need to add test case
+    # TODO: Add typing for configured commands
+    pyappconf_settings: AppConfig = command.callback.pyappconf_settings  # type: ignore
+    cliconf_settings: CLIConfSettings = command.callback.cliconf_settings  # type: ignore
+    model_cls: Type[BaseConfig] = command.callback.model_cls  # type: ignore
+    command.params.append(
+        create_generate_config_option(
+            pyappconf_settings.supported_formats,
+            pyappconf_settings.default_format,
+            model_cls,
+            command.callback,
+            cliconf_settings.generate_config_option_name,
+        )
+    )
+
+    # Override the main function to load config
+    command.main = types.MethodType(_cli_conf_main, command)
+    return command
+
+
+def _cli_conf_main(
     self: click.Command,
     args: Optional[Sequence[str]] = None,
     prog_name: Optional[str] = None,
@@ -25,8 +56,8 @@ def cli_conf_main(
     """
     A modified version of click.Command's main function that records which arguments were passed
     """
-    use_args = args or []
-    func_name = prog_name or _get_command_name(self.callback.__name__)  # type: ignore
+    use_args = _get_arguments_from_passed_or_argv(args)
+    func_name = prog_name or get_command_name(self.callback.__name__)  # type: ignore
     params = _create_passed_param_dict_from_command(self, func_name, use_args)
     # It seems typer always provides prog_name, but for safety calculate a fallback
     ARGS_STORE.add_command(func_name, use_args, params)
@@ -35,52 +66,18 @@ def cli_conf_main(
     )
 
 
-def get_command(typer_instance: Typer) -> click.Command:
-    """
-    Extends typer's get_command function to modify the created click.Command instance
-    to inspect the passed arguments and load from config.
-    """
-    command = typer_get_command(typer_instance)
-    # Override the main function to load config
-    command.main = types.MethodType(cli_conf_main, command)
-    return command
-
-
-def configure(settings: AppConfig, base_cls: Type[BaseConfig] = BaseConfig) -> Callable:
-    def actual_decorator(func: FunctionType):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            # Get args and kwargs as a single dict
-            args_kwargs = dict(zip(func.__code__.co_varnames[1:], args))
-            args_kwargs.update(kwargs)
-            # Get user passed args from command line via args store
-            args_store = ARGS_STORE[_get_command_name(func.__name__)]
-            user_kwargs = args_store.params
-            # Create a BaseConfig instance based off the function kwargs
-            DynamicConfig = create_model(
-                f"{func.__name__}_Config",
-                __base__=base_cls,
-                **args_kwargs,
-                settings=settings,
-                _settings=settings,
-            )
-            # Load the config, overriding with any user passed args
-            config = DynamicConfig.load(model_kwargs=user_kwargs)
-            return func(**config.dict(exclude={"settings"}))
-
-        return wrapper
-
-    return actual_decorator
-
-
-def _get_command_name(name: str) -> str:
-    return get_command_name(name.strip())
-
-
 def _create_passed_param_dict_from_command(
-    command: click.Command, prog_name: str, args: Sequence[str]
+    command: click.Command,
+    prog_name: str,
+    args: Sequence[str],
 ) -> Dict[str, Any]:
-    context = command.make_context(prog_name, [*args])
+    # Click's Command.make_context will raise Exit if the arguments are invalid
+    # Now we are parsing the arguments before click does, so we must handle the Exit.
+    # Here we just exit with the exit code, just as Click does in standalone_mode
+    try:
+        context = command.make_context(prog_name, [*args])
+    except Exit as e:
+        sys.exit(e.exit_code)
     parser = command.make_parser(context)
     opts, _, param_order = parser.parse_args(args=[*args])
     # Reorder the opts dict to match the order of the command's params
@@ -89,3 +86,25 @@ def _create_passed_param_dict_from_command(
         if argument.name in opts:
             out_opts[argument.name] = opts[argument.name]
     return out_opts
+
+
+def _get_arguments_from_passed_or_argv(
+    args: Optional[Sequence[str]] = None,
+) -> List[str]:
+    """
+    Returns the arguments passed to the command.
+
+    Note: Mostly adapted from click.BaseCommand.main
+    :param args:
+    :return:
+    """
+    if args is not None:
+        return list(args)
+
+    args = sys.argv[1:]
+
+    if os.name == "nt":
+        # It's not ideal to be using a private method, but want to make sure
+        # it works exactly the same for param extraction as how Click handles it
+        return _expand_args(args)
+    return args
