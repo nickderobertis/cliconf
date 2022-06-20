@@ -46,7 +46,7 @@
   
   
   
-    <title>cliconf.command &#8212; cliconf 1.0.0a2 documentation</title>
+    <title>cliconf.command &#8212; cliconf 1.0.0a3 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
@@ -88,7 +88,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="cliconf 1.0.0a2 documentation"
+        <a href="../../index.html" title="cliconf 1.0.0a3 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -174,7 +174,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">cliconf 1.0.0a2 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">cliconf 1.0.0a3 documentation</a></li>
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -187,13 +187,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="cliconf 1.0.0a2 documentation" class="md-nav__button md-logo">
+    <a href="../../index.html" title="cliconf 1.0.0a3 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../../index.html"
-       title="cliconf 1.0.0a2 documentation">cliconf</a>
+       title="cliconf 1.0.0a3 documentation">cliconf</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/cliconf" title="Go to repository" class="md-source" data-md-source="github">
@@ -262,15 +262,22 @@
           <article class="md-content__inner md-typeset" role="main">
             
   <h1 id="modules-cliconf-command--page-root">Source code for cliconf.command</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">types</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">import</span> <span class="nn">click</span>
+<span class="kn">from</span> <span class="nn">click.exceptions</span> <span class="kn">import</span> <span class="n">Exit</span>
+<span class="kn">from</span> <span class="nn">click.utils</span> <span class="kn">import</span> <span class="n">_expand_args</span>
+<span class="kn">from</span> <span class="nn">pyappconf</span> <span class="kn">import</span> <span class="n">AppConfig</span><span class="p">,</span> <span class="n">BaseConfig</span>
 <span class="kn">from</span> <span class="nn">typer</span> <span class="kn">import</span> <span class="n">Typer</span>
 <span class="kn">from</span> <span class="nn">typer.main</span> <span class="kn">import</span> <span class="n">get_command</span> <span class="k">as</span> <span class="n">typer_get_command</span>
 
 <span class="kn">from</span> <span class="nn">cliconf.arg_store</span> <span class="kn">import</span> <span class="n">ARGS_STORE</span>
 <span class="kn">from</span> <span class="nn">cliconf.command_name</span> <span class="kn">import</span> <span class="n">get_command_name</span>
+<span class="kn">from</span> <span class="nn">cliconf.options</span> <span class="kn">import</span> <span class="n">create_generate_config_option</span>
+<span class="kn">from</span> <span class="nn">cliconf.settings</span> <span class="kn">import</span> <span class="n">CLIConfSettings</span>
 
 
 <div class="viewcode-block" id="get_command"><a class="viewcode-back" href="../../api/cliconf.html#cliconf.command.get_command">[docs]</a><span class="k">def</span> <span class="nf">get_command</span><span class="p">(</span><span class="n">typer_instance</span><span class="p">:</span> <span class="n">Typer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">click</span><span class="o">.</span><span class="n">Command</span><span class="p">:</span>
@@ -279,6 +286,22 @@
 <span class="sd">    to inspect the passed arguments and load from config.</span>
 <span class="sd">    """</span>
     <span class="n">command</span> <span class="o">=</span> <span class="n">typer_get_command</span><span class="p">(</span><span class="n">typer_instance</span><span class="p">)</span>
+    <span class="c1"># Add an option to generate the pyappconf config file, optionally providing a format</span>
+    <span class="c1"># TODO: I don't think this approach will work for command groups, need to add test case</span>
+    <span class="c1"># TODO: Add typing for configured commands</span>
+    <span class="n">pyappconf_settings</span><span class="p">:</span> <span class="n">AppConfig</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">pyappconf_settings</span>  <span class="c1"># type: ignore</span>
+    <span class="n">cliconf_settings</span><span class="p">:</span> <span class="n">CLIConfSettings</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">cliconf_settings</span>  <span class="c1"># type: ignore</span>
+    <span class="n">model_cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseConfig</span><span class="p">]</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">model_cls</span>  <span class="c1"># type: ignore</span>
+    <span class="n">command</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">create_generate_config_option</span><span class="p">(</span>
+            <span class="n">pyappconf_settings</span><span class="o">.</span><span class="n">supported_formats</span><span class="p">,</span>
+            <span class="n">pyappconf_settings</span><span class="o">.</span><span class="n">default_format</span><span class="p">,</span>
+            <span class="n">model_cls</span><span class="p">,</span>
+            <span class="n">command</span><span class="o">.</span><span class="n">callback</span><span class="p">,</span>
+            <span class="n">cliconf_settings</span><span class="o">.</span><span class="n">generate_config_option_name</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
     <span class="c1"># Override the main function to load config</span>
     <span class="n">command</span><span class="o">.</span><span class="n">main</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">_cli_conf_main</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">command</span></div>
@@ -296,7 +319,7 @@
     <span class="sd">"""</span>
 <span class="sd">    A modified version of click.Command's main function that records which arguments were passed</span>
 <span class="sd">    """</span>
-    <span class="n">use_args</span> <span class="o">=</span> <span class="n">args</span> <span class="ow">or</span> <span class="p">[]</span>
+    <span class="n">use_args</span> <span class="o">=</span> <span class="n">_get_arguments_from_passed_or_argv</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="n">func_name</span> <span class="o">=</span> <span class="n">prog_name</span> <span class="ow">or</span> <span class="n">get_command_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
     <span class="n">params</span> <span class="o">=</span> <span class="n">_create_passed_param_dict_from_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="p">,</span> <span class="n">use_args</span><span class="p">)</span>
     <span class="c1"># It seems typer always provides prog_name, but for safety calculate a fallback</span>
@@ -307,9 +330,17 @@
 
 
 <span class="k">def</span> <span class="nf">_create_passed_param_dict_from_command</span><span class="p">(</span>
-    <span class="n">command</span><span class="p">:</span> <span class="n">click</span><span class="o">.</span><span class="n">Command</span><span class="p">,</span> <span class="n">prog_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">command</span><span class="p">:</span> <span class="n">click</span><span class="o">.</span><span class="n">Command</span><span class="p">,</span>
+    <span class="n">prog_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">args</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-    <span class="n">context</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">make_context</span><span class="p">(</span><span class="n">prog_name</span><span class="p">,</span> <span class="p">[</span><span class="o">*</span><span class="n">args</span><span class="p">])</span>
+    <span class="c1"># Click's Command.make_context will raise Exit if the arguments are invalid</span>
+    <span class="c1"># Now we are parsing the arguments before click does, so we must handle the Exit.</span>
+    <span class="c1"># Here we just exit with the exit code, just as Click does in standalone_mode</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">make_context</span><span class="p">(</span><span class="n">prog_name</span><span class="p">,</span> <span class="p">[</span><span class="o">*</span><span class="n">args</span><span class="p">])</span>
+    <span class="k">except</span> <span class="n">Exit</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">exit_code</span><span class="p">)</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">make_parser</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
     <span class="n">opts</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">param_order</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">args</span><span class="p">])</span>
     <span class="c1"># Reorder the opts dict to match the order of the command's params</span>
@@ -318,6 +349,28 @@
         <span class="k">if</span> <span class="n">argument</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
             <span class="n">out_opts</span><span class="p">[</span><span class="n">argument</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">opts</span><span class="p">[</span><span class="n">argument</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">out_opts</span>
+
+
+<span class="k">def</span> <span class="nf">_get_arguments_from_passed_or_argv</span><span class="p">(</span>
+    <span class="n">args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Returns the arguments passed to the command.</span>
+
+<span class="sd">    Note: Mostly adapted from click.BaseCommand.main</span>
+<span class="sd">    :param args:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"nt"</span><span class="p">:</span>
+        <span class="c1"># It's not ideal to be using a private method, but want to make sure</span>
+        <span class="c1"># it works exactly the same for param extraction as how Click handles it</span>
+        <span class="k">return</span> <span class="n">_expand_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">args</span>
 </pre></div>
 
           </article>
@@ -342,7 +395,7 @@
               
           </div>
             Created using
-            <a href="http://www.sphinx-doc.org/">Sphinx</a> 5.0.1.
+            <a href="http://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
              and
             <a href="https://github.com/bashtage/sphinx-material/">Material for
               Sphinx</a>
