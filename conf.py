@@ -58,7 +58,7 @@ PACKAGE_INSTALL_REQUIRES = [
     # 'package',
     # 'otherpackage>=1,<2'
     "typer",
-    "py-app-conf==1.3.0a6",
+    "py-app-conf==1.3.0a9",
 ]
 
 # Add any third party packages you use in requirements for optional features of your package here
