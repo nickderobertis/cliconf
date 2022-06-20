@@ -7,7 +7,11 @@ import typer
 from cliconf import configure
 from cliconf.main import CLIConf
 from tests.dirutils import create_temp_path
-from tests.fixtures.app_settings import SETTINGS_ONE_YAML, SETTINGS_TWO_PY
+from tests.fixtures.app_settings import (
+    SETTINGS_ALL_OPTIONAL_JSON,
+    SETTINGS_ONE_YAML,
+    SETTINGS_TWO_PY,
+)
 
 single_command_yaml_cliconf = CLIConf(name="single_command_yaml")
 
@@ -75,6 +79,20 @@ def single_command_py_cliconf_in_temp_dir() -> Tuple[CLIConf, Path]:
             print(a, b, c, d(c))
 
         yield temp_dir_cliconf, temp_path
+
+
+single_command_all_optional_json_cliconf = CLIConf(
+    name="single_command_all_optional_json"
+)
+
+
+@single_command_all_optional_json_cliconf.command()
+@configure(pyappconf_settings=SETTINGS_ALL_OPTIONAL_JSON)
+def my_cli_func_all_optional_json(
+    a: str = typer.Option("abc", help="a help"),
+    b: int = typer.Option(123, help="b help"),
+):
+    print(a, b)
 
 
 if __name__ == "__main__":

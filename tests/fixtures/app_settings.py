@@ -20,3 +20,11 @@ SETTINGS_TWO_PY = CLIAppConfig(
         "from tests.fixtures.cliconfs import my_cli_func_two_py, default_func_for_single_command_py",
     ],
 )
+
+
+SETTINGS_ALL_OPTIONAL_JSON = CLIAppConfig(
+    app_name="MyApp",
+    config_name="all_optional_json",
+    custom_config_folder=OVERRIDES_CONFIGS_DIR,
+    default_format=ConfigFormats.JSON,
+)
