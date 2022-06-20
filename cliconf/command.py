@@ -1,16 +1,20 @@
 import os
 import sys
 import types
-from typing import Any, Dict, List, Optional, Sequence
+from typing import Any, Dict, List, Optional, Sequence, Type
 
 import click
+from click import Context, Parameter
 from click.exceptions import Exit
 from click.utils import _expand_args
+from pyappconf import AppConfig, BaseConfig
 from typer import Typer
 from typer.main import get_command as typer_get_command
 
 from cliconf.arg_store import ARGS_STORE
 from cliconf.command_name import get_command_name
+from cliconf.options import create_generate_config_option
+from cliconf.settings import CLIConfSettings
 
 
 def get_command(typer_instance: Typer) -> click.Command:
@@ -19,6 +23,21 @@ def get_command(typer_instance: Typer) -> click.Command:
     to inspect the passed arguments and load from config.
     """
     command = typer_get_command(typer_instance)
+    # Add an option to generate the pyappconf config file, optionally providing a format
+    # TODO: I don't think this approach will work for command groups, need to add test case
+    # TODO: Add typing for configured commands
+    pyappconf_settings: AppConfig = command.callback.pyappconf_settings  # type: ignore
+    cliconf_settings: CLIConfSettings = command.callback.cliconf_settings  # type: ignore
+    model_cls: Type[BaseConfig] = command.callback.model_cls  # type: ignore
+    command.params.append(
+        create_generate_config_option(
+            pyappconf_settings.supported_formats,
+            pyappconf_settings.default_format,
+            model_cls,
+            cliconf_settings.generate_config_option_name,
+        )
+    )
+
     # Override the main function to load config
     command.main = types.MethodType(_cli_conf_main, command)
     return command

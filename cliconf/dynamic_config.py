@@ -62,7 +62,7 @@ def create_dynamic_config_class_from_function(
         )
 
         model_cls = create_model(
-            f"{func.__name__}_Config",
+            dynamic_model_class_name(func),
             __base__=base_cls,
             **params,
             **keyword_only_params,
@@ -70,6 +70,10 @@ def create_dynamic_config_class_from_function(
             _settings=settings,
         )
     return model_cls
+
+
+def dynamic_model_class_name(func: FunctionType) -> str:
+    return f"{func.__name__}_Config"
 
 
 def filter_func_args_and_kwargs_to_get_user_passed_data(

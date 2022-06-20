@@ -4,13 +4,15 @@ import pytest
 import typer
 from pydantic import ValidationError
 
-from cliconf import CLIConf, configure
+from cliconf import CLIConf, CLIConfSettings, configure
 from tests.fixtures.app_settings import SETTINGS_TWO_PY
 from tests.fixtures.cliconfs import default_func_for_single_command_py
 
 
 def test_configure_creates_dynamic_model():
-    @configure(SETTINGS_TWO_PY, make_fields_optional=False)
+    cliconf_settings = CLIConfSettings(make_fields_optional=False)
+
+    @configure(SETTINGS_TWO_PY, cliconf_settings=cliconf_settings)
     def my_cli_func(
         a: int,
         b: str = "b",
@@ -77,7 +79,7 @@ def test_configure_creates_dynamic_model_with_typer():
     cliconf_instance = CLIConf(name="dynamic_model_with_typer")
 
     @cliconf_instance.command()
-    @configure(settings=SETTINGS_TWO_PY)
+    @configure(pyappconf_settings=SETTINGS_TWO_PY)
     def my_cli_func(
         a: str,
         b: int = typer.Argument(..., help="b help"),

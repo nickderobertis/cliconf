@@ -20,7 +20,7 @@ flexlate = "*"
 myst-parser = "*"
 sphinx-material = "*"
 nox = "*"
-py-app-conf = "==1.3.0a6"
+py-app-conf = "==1.3.0a9"
 
 [pipenv]
 allow_prereleases = true
