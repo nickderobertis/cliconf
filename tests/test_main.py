@@ -1,3 +1,4 @@
+import re
 import shlex
 from pathlib import Path
 from typing import Sequence, Tuple
@@ -17,6 +18,25 @@ from tests.fixtures.cliconfs import (
 )
 
 runner = CLIRunner()
+
+ansi_escape = re.compile(
+    r"""
+    \x1B  # ESC
+    (?:   # 7-bit C1 Fe (except CSI)
+        [@-Z\\-_]
+    |     # or [ for CSI, followed by a control sequence
+        \[
+        [0-?]*  # Parameter bytes
+        [ -/]*  # Intermediate bytes
+        [@-~]   # Final byte
+    )
+""",
+    re.VERBOSE,
+)
+
+
+def strip_all_ansi(string: str) -> str:
+    return ansi_escape.sub("", string)
 
 
 class CLIRunnerException(Exception):
@@ -66,10 +86,11 @@ def test_single_command_cliconf_prints_help():
     result = run(single_command_yaml_cliconf, ["--help"])
 
     def has(*segments: Sequence[str]) -> bool:
-        found = _has_line_containing_each(result.stdout, *segments)
+        text = strip_all_ansi(result.stdout)
+        found = _has_line_containing_each(text, *segments)
         if not found:
             print(segments, "not found in")
-            print(result.stdout)
+            print(text)
         return found
 
     assert has("a", "TEXT", "[default: None]", "[required]")
