@@ -44,6 +44,29 @@ def single_command_yaml_cliconf_in_temp_dir() -> Tuple[CLIConf, Path]:
         yield temp_dir_cliconf, temp_path
 
 
+multi_command_shared_config_yaml_cliconf = CLIConf(name="multi_command_yaml")
+
+
+@multi_command_shared_config_yaml_cliconf.command(name="one")
+@configure(pyappconf_settings=SETTINGS_ONE_YAML)
+def my_cli_func_one_multi_yaml(
+    a: str,
+    b: int = typer.Argument(..., help="b help"),
+    c: float = typer.Option(3.2, help="c help"),
+):
+    print(a, b, c)
+
+
+@multi_command_shared_config_yaml_cliconf.command(name="two")
+@configure(pyappconf_settings=SETTINGS_ONE_YAML)
+def my_cli_func_two_multi_yaml(
+    a: str,
+    b: int = typer.Argument(..., help="b help"),
+    d: float = typer.Option(13.2, help="d help"),
+):
+    print(d, b, a)
+
+
 single_command_py_cliconf = CLIConf(name="single_command_py")
 
 

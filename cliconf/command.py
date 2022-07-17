@@ -1,7 +1,7 @@
 import os
 import sys
 import types
-from typing import Any, Dict, List, Optional, Sequence, Type
+from typing import Any, Callable, Dict, List, Optional, Sequence, Type, Union, cast
 
 import click
 from click.exceptions import Exit
@@ -9,11 +9,22 @@ from click.utils import _expand_args
 from pyappconf import AppConfig, BaseConfig
 from typer import Typer
 from typer.main import get_command as typer_get_command
+from typing_extensions import TypeGuard
 
 from cliconf.arg_store import ARGS_STORE
 from cliconf.command_name import get_command_name
+from cliconf.logger import log
 from cliconf.options import create_generate_config_option
 from cliconf.settings import CLIConfSettings
+
+
+class CLIConfCallable:
+    pyappconf_settings: AppConfig
+    cliconf_settings: CLIConfSettings
+    model_cls: Type[BaseConfig]
+
+    def __call__(self, *args, **kwargs):
+        ...
 
 
 def get_command(typer_instance: Typer) -> click.Command:
@@ -21,29 +32,69 @@ def get_command(typer_instance: Typer) -> click.Command:
     Extends typer's get_command function to modify the created click.Command instance
     to inspect the passed arguments and load from config.
     """
-    command = typer_get_command(typer_instance)
-    # Add an option to generate the pyappconf config file, optionally providing a format
-    # TODO: I don't think this approach will work for command groups, need to add test case
-    # TODO: Add typing for configured commands
-    pyappconf_settings: AppConfig = command.callback.pyappconf_settings  # type: ignore
-    cliconf_settings: CLIConfSettings = command.callback.cliconf_settings  # type: ignore
-    model_cls: Type[BaseConfig] = command.callback.model_cls  # type: ignore
+    command = cast(Union[click.Command, click.Group], typer_get_command(typer_instance))
+
+    if _is_command_group(command):
+        for subcommand in command.commands.values():
+            _customize_command(subcommand)
+        # Override the main function to load config
+        command.main = types.MethodType(_cli_conf_main_multi_command, command)
+        return command
+
+    # Single command
+    _customize_command(command)
+    # Override the main function to load config
+    command.main = types.MethodType(_cli_conf_main_single_command, command)
+
+    return command
+
+
+def _is_command_group(
+    command: Union[click.Command, click.Group]
+) -> TypeGuard[click.Group]:
+    return hasattr(command, "commands")
+
+
+def _is_cliconf_command(command: click.Command) -> bool:
+    return hasattr(command.callback, "cliconf_settings")
+
+
+def _is_cliconf_callable(fn: Callable) -> TypeGuard[CLIConfCallable]:
+    return (
+        hasattr(fn, "cliconf_settings")
+        and hasattr(fn, "pyappconf_settings")
+        and hasattr(fn, "model_cls")
+        and callable(fn)
+    )
+
+
+def _customize_command(
+    command: click.Command,
+):
+    if not _is_cliconf_command(command):
+        log.debug(f"Not a cliconf command, skipping customization: {command.name}")
+        return
+
+    callback = command.callback
+
+    if not _is_cliconf_callable(callback):
+        return
+
+    pyappconf_settings: AppConfig = callback.pyappconf_settings
+    cliconf_settings: CLIConfSettings = callback.cliconf_settings
+    model_cls: Type[BaseConfig] = callback.model_cls
     command.params.append(
         create_generate_config_option(
             pyappconf_settings.supported_formats,
             pyappconf_settings.default_format,
             model_cls,
-            command.callback,
+            callback,  # type: ignore
             cliconf_settings.generate_config_option_name,
         )
     )
 
-    # Override the main function to load config
-    command.main = types.MethodType(_cli_conf_main, command)
-    return command
 
-
-def _cli_conf_main(
+def _cli_conf_main_single_command(
     self: click.Command,
     args: Optional[Sequence[str]] = None,
     prog_name: Optional[str] = None,
@@ -51,7 +102,7 @@ def _cli_conf_main(
     standalone_mode: bool = True,
     windows_expand_args: bool = True,
     **extra: Any,
-) -> Any:
+):
     """
     A modified version of click.Command's main function that records which arguments were passed
     """
@@ -60,6 +111,33 @@ def _cli_conf_main(
     params = _create_passed_param_dict_from_command(self, func_name, use_args)
     # It seems typer always provides prog_name, but for safety calculate a fallback
     ARGS_STORE.add_command(func_name, use_args, params)
+    return super(type(self), self).main(  # type: ignore
+        args, func_name, complete_var, standalone_mode, windows_expand_args, **extra
+    )
+
+
+def _cli_conf_main_multi_command(
+    self: click.Group,
+    args: Optional[Sequence[str]] = None,
+    prog_name: Optional[str] = None,
+    complete_var: Optional[str] = None,
+    standalone_mode: bool = True,
+    windows_expand_args: bool = True,
+    **extra: Any,
+):
+    """
+    A modified version of click.Group's main function that records which arguments were passed
+    """
+    use_args = _get_arguments_from_passed_or_argv(args)
+    if len(use_args) == 0:
+        raise ValueError("must have command for multi command cliconf")
+    sub_command_name, sub_command_args = use_args[0], use_args[1:]
+    sub_command = self.commands[sub_command_name]
+    func_name = get_command_name(sub_command.callback.__name__)  # type: ignore
+    params = _create_passed_param_dict_from_command(
+        sub_command, func_name, sub_command_args
+    )
+    ARGS_STORE.add_command(func_name, sub_command_args, params)
     return super(type(self), self).main(  # type: ignore
         args, func_name, complete_var, standalone_mode, windows_expand_args, **extra
     )

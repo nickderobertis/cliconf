@@ -3,6 +3,7 @@ from types import FunctionType
 from typing import Optional, Type
 
 from pyappconf import AppConfig, BaseConfig, ConfigFormats
+from pydantic import Extra
 
 from cliconf.dynamic_config_name import dynamic_model_class_name
 
@@ -16,6 +17,7 @@ def create_cli_base_config_class(
     class CLIBaseConfig(base_cls):  # type: ignore
         class Config:
             env_prefix = prefix
+            extra = Extra.ignore
 
     return CLIBaseConfig
 

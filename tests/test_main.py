@@ -9,6 +9,7 @@ from cliconf.testing import CLIRunner
 from tests import ext_click
 from tests.config import CONFIGS_DIR, PLAIN_CONFIGS_DIR
 from tests.fixtures.cliconfs import (
+    multi_command_shared_config_yaml_cliconf,
     single_command_py_cliconf,
     single_command_py_cliconf_in_temp_dir,
     single_command_yaml_cliconf,
@@ -36,6 +37,13 @@ def run(instance: CLIConf, args: Sequence[str]) -> Result:
 def test_single_command_cliconf_reads_from_yaml_config():
     result = run(single_command_yaml_cliconf, ["a", "2"])
     assert result.stdout == "a 2 45.6\n"
+
+
+def test_multi_command_shared_config_cliconf_reads_from_yaml_config():
+    result_one = run(multi_command_shared_config_yaml_cliconf, ["one", "a", "2"])
+    result_two = run(multi_command_shared_config_yaml_cliconf, ["two", "a", "2"])
+    assert result_one.stdout == "a 2 45.6\n"
+    assert result_two.stdout == "13.2 2 a\n"
 
 
 def test_single_command_cliconf_prints_help():
