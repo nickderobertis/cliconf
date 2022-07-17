@@ -81,7 +81,7 @@ def test_multi_command_shared_config_cliconf_reads_from_yaml_config():
 
 
 def _has_line_containing_each(text: str, *segments: Sequence[str]) -> bool:
-    lines = text.splitlines()
+    lines = strip_all_ansi(text).splitlines()
     for line in lines:
         match = True
         for segment in segments:
@@ -100,11 +100,10 @@ def test_single_command_cliconf_prints_help():
     result = run(single_command_yaml_cliconf, ["--help"])
 
     def has(*segments: Sequence[str]) -> bool:
-        text = strip_all_ansi(result.stdout)
-        found = _has_line_containing_each(text, *segments)
+        found = _has_line_containing_each(result.stdout, *segments)
         if not found:
             print(segments, "not found in")
-            print(text)
+            print(result.stdout)
         return found
 
     assert has("a", "TEXT", "[default: None]", "[required]")
@@ -112,6 +111,21 @@ def test_single_command_cliconf_prints_help():
     assert has("--c", "FLOAT")
     assert has("c help", "[default: 3.2]")
     assert has("--help")
+
+
+def test_multi_command_cliconf_prints_help():
+
+    result = run(multi_command_shared_config_yaml_cliconf, ["--help"])
+
+    def has(*segments: Sequence[str]) -> bool:
+        found = _has_line_containing_each(result.stdout, *segments)
+        if not found:
+            print(segments, "not found in")
+            print(result.stdout)
+        return found
+
+    assert has("one", "one help")
+    assert has("two", "two help")
 
 
 def test_single_command_cliconf_reads_py_config():

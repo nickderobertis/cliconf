@@ -128,11 +128,21 @@ def _cli_conf_main_multi_command(
     """
     A modified version of click.Group's main function that records which arguments were passed
     """
+
+    def run_original():
+        return super(type(self), self).main(  # type: ignore
+            args, prog_name, complete_var, standalone_mode, windows_expand_args, **extra
+        )
+
     use_args = _get_arguments_from_passed_or_argv(args)
     if len(use_args) == 0:
-        raise ValueError("must have command for multi command cliconf")
+        # No arguments passed. No need to configure arguments
+        return run_original()
     sub_command_name, sub_command_args = use_args[0], use_args[1:]
-    sub_command = self.commands[sub_command_name]
+    sub_command = self.commands.get(sub_command_name)
+    if sub_command is None:
+        # First argument did not match a subcommand. Must be requesting help, no need to configure arguments
+        return run_original()
     func_name = get_command_name(sub_command.callback.__name__)  # type: ignore
     params = _create_passed_param_dict_from_command(
         sub_command, func_name, sub_command_args
