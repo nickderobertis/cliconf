@@ -48,7 +48,13 @@ def configure(
             user_passed_data = filter_func_args_and_kwargs_to_get_user_passed_data(
                 func, args, kwargs
             )
-            config = model_cls.load_or_create(model_kwargs=user_passed_data)
+            if cliconf_settings.recursive_loading:
+                try:
+                    config = model_cls.load_recursive(model_kwargs=user_passed_data)
+                except FileNotFoundError:
+                    config = model_cls.load_or_create(model_kwargs=user_passed_data)
+            else:
+                config = model_cls.load_or_create(model_kwargs=user_passed_data)
             return func(**config.dict(exclude={"settings"}))
 
         # Attach the generated config model class to the function, so it can be imported in

@@ -4,11 +4,12 @@ from typing import Callable, Tuple
 import pytest
 import typer
 
-from cliconf import configure
+from cliconf import CLIConfSettings, configure
 from cliconf.main import CLIConf
 from tests.dirutils import create_temp_path
 from tests.fixtures.app_settings import (
     SETTINGS_ALL_OPTIONAL_JSON,
+    SETTINGS_ONE_RECURSIVE_YAML,
     SETTINGS_ONE_YAML,
     SETTINGS_TWO_PY,
 )
@@ -19,6 +20,22 @@ single_command_yaml_cliconf = CLIConf(name="single_command_yaml")
 @single_command_yaml_cliconf.command()
 @configure(pyappconf_settings=SETTINGS_ONE_YAML)
 def my_cli_func_one_yaml(
+    a: str,
+    b: int = typer.Argument(..., help="b help"),
+    c: float = typer.Option(3.2, help="c help"),
+):
+    print(a, b, c)
+
+
+single_command_recursive_yaml_cliconf = CLIConf(name="single_command_recursive_yaml")
+
+
+@single_command_recursive_yaml_cliconf.command()
+@configure(
+    pyappconf_settings=SETTINGS_ONE_RECURSIVE_YAML,
+    cliconf_settings=CLIConfSettings(recursive_loading=True),
+)
+def my_cli_func_one_recursive_yaml(
     a: str,
     b: int = typer.Argument(..., help="b help"),
     c: float = typer.Option(3.2, help="c help"),

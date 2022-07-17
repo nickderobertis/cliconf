@@ -12,6 +12,7 @@ class CLIConfSettings(BaseModel):
     generate_config_option_name: str = "config-gen"
     base_cls: Optional[Type[BaseConfig]] = None
     make_fields_optional: bool = True
+    recursive_loading: bool = False
 
 
 DEFAULT_SETTINGS = CLIConfSettings()

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pyappconf import ConfigFormats
 
 from cliconf import CLIAppConfig
@@ -7,6 +9,14 @@ SETTINGS_ONE_YAML = CLIAppConfig(
     app_name="MyApp",
     config_name="one",
     custom_config_folder=OVERRIDES_CONFIGS_DIR,
+    default_format=ConfigFormats.YAML,
+)
+
+SETTINGS_ONE_RECURSIVE_YAML = CLIAppConfig(
+    app_name="MyApp",
+    config_name="one",
+    # Ensure it should not find a default config
+    custom_config_folder=Path("/non/existent/path"),
     default_format=ConfigFormats.YAML,
 )
 

@@ -4,15 +4,17 @@ from pathlib import Path
 from typing import Sequence, Tuple
 
 from click.testing import Result
+from flexlate.path_ops import change_directory_to
 
 from cliconf.main import CLIConf
 from cliconf.testing import CLIRunner
 from tests import ext_click
-from tests.config import CONFIGS_DIR, PLAIN_CONFIGS_DIR
+from tests.config import CONFIGS_DIR, NESTED_OVERRIDES_CONFIGS_DIR, PLAIN_CONFIGS_DIR
 from tests.fixtures.cliconfs import (
     multi_command_shared_config_yaml_cliconf,
     single_command_py_cliconf,
     single_command_py_cliconf_in_temp_dir,
+    single_command_recursive_yaml_cliconf,
     single_command_yaml_cliconf,
     single_command_yaml_cliconf_in_temp_dir,
 )
@@ -57,6 +59,18 @@ def run(instance: CLIConf, args: Sequence[str]) -> Result:
 def test_single_command_cliconf_reads_from_yaml_config():
     result = run(single_command_yaml_cliconf, ["a", "2"])
     assert result.stdout == "a 2 45.6\n"
+
+
+def test_recursive_single_command_cliconf_reads_recursively_from_yaml_config():
+    with change_directory_to(NESTED_OVERRIDES_CONFIGS_DIR):
+        result = run(single_command_recursive_yaml_cliconf, ["a", "2"])
+        assert result.stdout == "a 2 45.6\n"
+
+
+def test_recursive_single_command_cliconf_loads_default_config_when_none_found():
+    with change_directory_to(CONFIGS_DIR):
+        result = run(single_command_recursive_yaml_cliconf, ["a", "2"])
+        assert result.stdout == "a 2 3.2\n"
 
 
 def test_multi_command_shared_config_cliconf_reads_from_yaml_config():
