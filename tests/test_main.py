@@ -48,10 +48,10 @@ def test_multi_command_shared_config_cliconf_reads_from_yaml_config():
 
 def test_single_command_cliconf_prints_help():
     result = run(single_command_yaml_cliconf, ["--help"])
-    assert "A  [required]" in result.stdout
-    assert "B  b help  [required]" in result.stdout
-    assert "--c FLOAT" in result.stdout
-    assert "c help  [default: 3.2]" in result.stdout
+    assert "a      TEXT     [default: None] [required] " in result.stdout
+    assert " b      INTEGER  b help [default: None] [required]" in result.stdout
+    assert "--c                         FLOAT" in result.stdout
+    assert "c help [default: 3.2]" in result.stdout
     assert "--help" in result.stdout
 
 
