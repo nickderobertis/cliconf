@@ -4,12 +4,12 @@ from pathlib import Path
 from typing import Sequence, Tuple
 
 from click.testing import Result
-from flexlate.path_ops import change_directory_to
 
 from cliconf.main import CLIConf
 from cliconf.testing import CLIRunner
 from tests import ext_click
 from tests.config import CONFIGS_DIR, NESTED_OVERRIDES_CONFIGS_DIR, PLAIN_CONFIGS_DIR
+from tests.dirutils import change_directory_to
 from tests.fixtures.cliconfs import (
     multi_command_shared_config_yaml_cliconf,
     single_command_py_cliconf,
