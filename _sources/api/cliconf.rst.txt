@@ -73,6 +73,14 @@ cliconf.ext\_typer module
    :undoc-members:
    :show-inheritance:
 
+cliconf.logger module
+---------------------
+
+.. automodule:: cliconf.logger
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 cliconf.main module
 -------------------
 

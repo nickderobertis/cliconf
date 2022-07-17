@@ -1,3 +1,4 @@
+rich
 py-app-conf==1.3.0a10
-typer
 cliconf
+typer
