@@ -66,7 +66,11 @@ def test_single_command_cliconf_prints_help():
     result = run(single_command_yaml_cliconf, ["--help"])
 
     def has(*segments: Sequence[str]) -> bool:
-        return _has_line_containing_each(result.stdout, *segments)
+        found = _has_line_containing_each(result.stdout, *segments)
+        if not found:
+            print(segments, "not found in")
+            print(result.stdout)
+        return found
 
     assert has("a", "TEXT", "[default: None]", "[required]")
     assert has("b", "INTEGER", "b help", "[default: None]", "[required]")
