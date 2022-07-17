@@ -46,7 +46,7 @@
   
   
   
-    <title>cliconf.configure &#8212; cliconf 1.0.0a5 documentation</title>
+    <title>cliconf.configure &#8212; cliconf 1.0.0a6 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
@@ -88,7 +88,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="cliconf 1.0.0a5 documentation"
+        <a href="../../index.html" title="cliconf 1.0.0a6 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -174,7 +174,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">cliconf 1.0.0a5 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">cliconf 1.0.0a6 documentation</a></li>
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -187,13 +187,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="cliconf 1.0.0a5 documentation" class="md-nav__button md-logo">
+    <a href="../../index.html" title="cliconf 1.0.0a6 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../../index.html"
-       title="cliconf 1.0.0a5 documentation">cliconf</a>
+       title="cliconf 1.0.0a6 documentation">cliconf</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/cliconf" title="Go to repository" class="md-source" data-md-source="github">
@@ -312,7 +312,13 @@
             <span class="n">user_passed_data</span> <span class="o">=</span> <span class="n">filter_func_args_and_kwargs_to_get_user_passed_data</span><span class="p">(</span>
                 <span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
             <span class="p">)</span>
-            <span class="n">config</span> <span class="o">=</span> <span class="n">model_cls</span><span class="o">.</span><span class="n">load_or_create</span><span class="p">(</span><span class="n">model_kwargs</span><span class="o">=</span><span class="n">user_passed_data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cliconf_settings</span><span class="o">.</span><span class="n">recursive_loading</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">config</span> <span class="o">=</span> <span class="n">model_cls</span><span class="o">.</span><span class="n">load_recursive</span><span class="p">(</span><span class="n">model_kwargs</span><span class="o">=</span><span class="n">user_passed_data</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                    <span class="n">config</span> <span class="o">=</span> <span class="n">model_cls</span><span class="o">.</span><span class="n">load_or_create</span><span class="p">(</span><span class="n">model_kwargs</span><span class="o">=</span><span class="n">user_passed_data</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">config</span> <span class="o">=</span> <span class="n">model_cls</span><span class="o">.</span><span class="n">load_or_create</span><span class="p">(</span><span class="n">model_kwargs</span><span class="o">=</span><span class="n">user_passed_data</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">{</span><span class="s2">"settings"</span><span class="p">}))</span>
 
         <span class="c1"># Attach the generated config model class to the function, so it can be imported in</span>

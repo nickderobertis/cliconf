@@ -1,4 +1,4 @@
 rich
-py-app-conf==1.3.0a10
-cliconf
 typer
+cliconf
+py-app-conf==1.3.0a10
