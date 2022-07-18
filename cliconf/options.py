@@ -48,7 +48,6 @@ def create_generate_config_option(
     return click.Option(
         opt_flag,
         type=click.Choice(supported_formats),
-        default=default_format,
         prompt="What format would you like to generate the config file in?",
         prompt_required=False,
         **common_kwargs,
