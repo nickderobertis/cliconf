@@ -4,8 +4,13 @@ from pyappconf import BaseConfig
 
 from cliconf.ext_pyappconf import save_model
 from tests.config import OVERRIDES_CONFIGS_DIR, PLAIN_CONFIGS_DIR
-from tests.fixtures.app_settings import SETTINGS_ONE_YAML, SETTINGS_TWO_PY
+from tests.fixtures.app_settings import (
+    SETTINGS_NESTED_CONFIG_YAML,
+    SETTINGS_ONE_YAML,
+    SETTINGS_TWO_PY,
+)
 from tests.fixtures.cliconfs import (
+    NestedConfig,
     default_func_for_single_command_py,
     my_cli_func_two_py,
 )
@@ -55,8 +60,23 @@ def generate_config_two_py_with_overrides():
     save_model(obj, my_cli_func_two_py)
 
 
+class ConfigWithNestingOptional(BaseConfig):
+    a: Optional[str] = None
+    b: Optional[NestedConfig] = None
+
+    _settings = SETTINGS_NESTED_CONFIG_YAML
+
+
+def generate_config_with_nesting():
+    settings = ConfigWithNestingOptional._settings.copy(
+        custom_config_folder=PLAIN_CONFIGS_DIR
+    )
+    ConfigWithNestingOptional(settings=settings).save()
+
+
 if __name__ == "__main__":
     generate_config_one()
     generate_config_one_with_overrides()
     generate_config_two_py()
     generate_config_two_py_with_overrides()
+    generate_config_with_nesting()

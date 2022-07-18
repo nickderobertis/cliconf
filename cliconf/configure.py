@@ -1,7 +1,7 @@
 import functools
 import inspect
 from types import FunctionType
-from typing import Callable, List, Type
+from typing import Any, Callable, Dict, List, Type
 
 from pyappconf import AppConfig, BaseConfig
 
@@ -55,7 +55,7 @@ def configure(
                     config = model_cls.load_or_create(model_kwargs=user_passed_data)
             else:
                 config = model_cls.load_or_create(model_kwargs=user_passed_data)
-            return func(**config.dict(exclude={"settings"}))
+            return func(**model_as_dict(config))
 
         # Attach the generated config model class to the function, so it can be imported in
         # the py config format
@@ -81,3 +81,15 @@ def configure(
         return wrapper
 
     return actual_decorator
+
+
+def model_as_dict(model: BaseConfig) -> Dict[str, Any]:
+    """
+    Only serialize the top-layer of the model to a dict, leave nested models as Pydantic models
+    """
+    data: Dict[str, Any] = {}
+    for name, field in model.__fields__.items():
+        if name == "settings":
+            continue
+        data[name] = getattr(model, name)
+    return data

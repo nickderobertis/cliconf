@@ -46,3 +46,10 @@ SETTINGS_ALL_OPTIONAL_JSON = CLIAppConfig(
     custom_config_folder=OVERRIDES_CONFIGS_DIR,
     default_format=ConfigFormats.JSON,
 )
+
+SETTINGS_NESTED_CONFIG_YAML = CLIAppConfig(
+    app_name="MyApp",
+    config_name="nested_config",
+    custom_config_folder=OVERRIDES_CONFIGS_DIR,
+    default_format=ConfigFormats.YAML,
+)

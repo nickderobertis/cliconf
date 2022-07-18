@@ -1,14 +1,16 @@
 from pathlib import Path
-from typing import Callable, Tuple
+from typing import Callable, Optional, Tuple
 
 import pytest
 import typer
+from pydantic import BaseModel
 
 from cliconf import CLIConfSettings, configure
 from cliconf.main import CLIConf
 from tests.dirutils import create_temp_path
 from tests.fixtures.app_settings import (
     SETTINGS_ALL_OPTIONAL_JSON,
+    SETTINGS_NESTED_CONFIG_YAML,
     SETTINGS_ONE_MULTI_FORMAT,
     SETTINGS_ONE_RECURSIVE_YAML,
     SETTINGS_ONE_YAML,
@@ -73,6 +75,25 @@ def my_cli_func_one_yaml(
     c: float = typer.Option(3.2, help="c help"),
 ):
     print(a, b, c)
+
+
+single_command_nested_config_yaml_cliconf = CLIConf(
+    name="single_command_nested_config_yaml"
+)
+
+
+class NestedConfig(BaseModel):
+    na: str
+    nb: float
+
+
+@single_command_nested_config_yaml_cliconf.command()
+@configure(pyappconf_settings=SETTINGS_NESTED_CONFIG_YAML)
+def my_cli_func_one_nested_config_yaml(
+    a: str,
+    b: Optional[NestedConfig] = None,
+):
+    print(a, b)
 
 
 multi_command_shared_config_yaml_cliconf = CLIConf(name="multi_command_yaml")
