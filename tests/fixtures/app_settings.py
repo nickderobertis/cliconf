@@ -31,6 +31,14 @@ SETTINGS_TWO_PY = CLIAppConfig(
     ],
 )
 
+SETTINGS_ONE_MULTI_FORMAT = CLIAppConfig(
+    app_name="MyApp",
+    config_name="one",
+    custom_config_folder=OVERRIDES_CONFIGS_DIR,
+    default_format=ConfigFormats.YAML,
+    multi_format=True,
+)
+
 
 SETTINGS_ALL_OPTIONAL_JSON = CLIAppConfig(
     app_name="MyApp",

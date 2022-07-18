@@ -9,6 +9,7 @@ from cliconf.main import CLIConf
 from tests.dirutils import create_temp_path
 from tests.fixtures.app_settings import (
     SETTINGS_ALL_OPTIONAL_JSON,
+    SETTINGS_ONE_MULTI_FORMAT,
     SETTINGS_ONE_RECURSIVE_YAML,
     SETTINGS_ONE_YAML,
     SETTINGS_TWO_PY,
@@ -59,6 +60,19 @@ def single_command_yaml_cliconf_in_temp_dir() -> Tuple[CLIConf, Path]:
             print(a, b, c)
 
         yield temp_dir_cliconf, temp_path
+
+
+single_command_multi_format_cliconf = CLIConf(name="single_command_multi_format")
+
+
+@single_command_multi_format_cliconf.command()
+@configure(pyappconf_settings=SETTINGS_ONE_MULTI_FORMAT)
+def my_cli_func_one_yaml(
+    a: str,
+    b: int = typer.Argument(..., help="b help"),
+    c: float = typer.Option(3.2, help="c help"),
+):
+    print(a, b, c)
 
 
 multi_command_shared_config_yaml_cliconf = CLIConf(name="multi_command_yaml")

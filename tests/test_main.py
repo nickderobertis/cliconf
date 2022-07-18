@@ -12,6 +12,7 @@ from tests.config import CONFIGS_DIR, NESTED_OVERRIDES_CONFIGS_DIR, PLAIN_CONFIG
 from tests.dirutils import change_directory_to
 from tests.fixtures.cliconfs import (
     multi_command_shared_config_yaml_cliconf,
+    single_command_multi_format_cliconf,
     single_command_py_cliconf,
     single_command_py_cliconf_in_temp_dir,
     single_command_recursive_yaml_cliconf,
@@ -71,6 +72,11 @@ def test_recursive_single_command_cliconf_loads_default_config_when_none_found()
     with change_directory_to(CONFIGS_DIR):
         result = run(single_command_recursive_yaml_cliconf, ["a", "2"])
         assert result.stdout == "a 2 3.2\n"
+
+
+def test_single_command_multi_format_cliconf_reads_from_yaml_config():
+    result = run(single_command_multi_format_cliconf, ["a", "2"])
+    assert result.stdout == "a 2 45.6\n"
 
 
 def test_multi_command_shared_config_cliconf_reads_from_yaml_config():
