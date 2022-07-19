@@ -24,6 +24,9 @@ class ArgumentStore(BaseModel):
     def remove_command(self, prog_name: str):
         del self.commands[prog_name]
 
+    def args_are_stored_for(self, prog_name: str) -> bool:
+        return prog_name in self.commands
+
     def __getitem__(self, item):
         return self.commands[item]
 

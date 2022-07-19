@@ -5,11 +5,14 @@ from typing import Any, Callable, Dict, List, Type
 
 from pyappconf import AppConfig, BaseConfig
 
+from cliconf.arg_store import ARGS_STORE
+from cliconf.command_name import get_command_name
 from cliconf.dynamic_config import (
     create_dynamic_config_class_from_function,
     filter_func_args_and_kwargs_to_get_user_passed_data,
 )
 from cliconf.ext_typer import get_arg_names_that_can_be_processed_by_typer
+from cliconf.py_api import execute_cliconf_func_as_python_func
 from cliconf.settings import DEFAULT_SETTINGS, CLIConfSettings
 
 
@@ -30,6 +33,10 @@ class _ModelContainer:
     model: Type[BaseConfig]
 
 
+def _is_executing_from_cli(func: FunctionType) -> bool:
+    return ARGS_STORE.args_are_stored_for(get_command_name(func.__name__))
+
+
 def configure(
     pyappconf_settings: AppConfig,
     cliconf_settings: CLIConfSettings = DEFAULT_SETTINGS,
@@ -44,6 +51,9 @@ def configure(
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            if not _is_executing_from_cli(func):
+                return execute_cliconf_func_as_python_func(func, *args, **kwargs)
+
             # Load the config, overriding with any user passed args
             user_passed_data = filter_func_args_and_kwargs_to_get_user_passed_data(
                 func, args, kwargs

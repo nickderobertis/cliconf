@@ -75,6 +75,7 @@ def my_cli_func_one_yaml(
     c: float = typer.Option(3.2, help="c help"),
 ):
     print(a, b, c)
+    return a, b, c
 
 
 single_command_nested_config_yaml_cliconf = CLIConf(
