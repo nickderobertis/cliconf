@@ -47,7 +47,7 @@
   
   
   
-    <title>cliconf package &#8212; cliconf 1.0.0a9 documentation</title>
+    <title>cliconf package &#8212; cliconf 1.0.0a10 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="cliconf 1.0.0a9 documentation"
+        <a href="../index.html" title="cliconf 1.0.0a10 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">cliconf 1.0.0a9 documentation</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">cliconf 1.0.0a10 documentation</a></li>
           <li class="md-tabs__item"><a href="modules.html" class="md-tabs__link">cliconf</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="cliconf 1.0.0a9 documentation" class="md-nav__button md-logo">
+    <a href="../index.html" title="cliconf 1.0.0a10 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../index.html"
-       title="cliconf 1.0.0a9 documentation">cliconf</a>
+       title="cliconf 1.0.0a10 documentation">cliconf</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/cliconf" title="Go to repository" class="md-source" data-md-source="github">
@@ -263,6 +263,8 @@
         </li>
         <li class="md-nav__item"><a href="#module-cliconf.dynamic_config_name" class="md-nav__link">cliconf.dynamic_config_name module</a>
         </li>
+        <li class="md-nav__item"><a href="#module-cliconf.ext_inspect" class="md-nav__link">cliconf.ext_inspect module</a>
+        </li>
         <li class="md-nav__item"><a href="#module-cliconf.ext_pyappconf" class="md-nav__link">cliconf.ext_pyappconf module</a>
         </li>
         <li class="md-nav__item"><a href="#module-cliconf.ext_typer" class="md-nav__link">cliconf.ext_typer module</a>
@@ -272,6 +274,8 @@
         <li class="md-nav__item"><a href="#module-cliconf.main" class="md-nav__link">cliconf.main module</a>
         </li>
         <li class="md-nav__item"><a href="#module-cliconf.options" class="md-nav__link">cliconf.options module</a>
+        </li>
+        <li class="md-nav__item"><a href="#module-cliconf.py_api" class="md-nav__link">cliconf.py_api module</a>
         </li>
         <li class="md-nav__item"><a href="#module-cliconf.settings" class="md-nav__link">cliconf.settings module</a>
         </li>
@@ -337,6 +341,13 @@
     <li class="md-nav__item">
     
     
+      <a href="#module-cliconf.ext_inspect" class="md-nav__link">cliconf.ext_inspect module</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
       <a href="#module-cliconf.ext_pyappconf" class="md-nav__link">cliconf.ext_pyappconf module</a>
       
     
@@ -366,6 +377,13 @@
     
     
       <a href="#module-cliconf.options" class="md-nav__link">cliconf.options module</a>
+      
+    
+    </li>
+    <li class="md-nav__item">
+    
+    
+      <a href="#module-cliconf.py_api" class="md-nav__link">cliconf.py_api module</a>
       
     
     </li>
@@ -417,6 +435,8 @@
         </li>
         <li class="md-nav__item"><a href="#module-cliconf.dynamic_config_name" class="md-nav__link">cliconf.dynamic_config_name module</a>
         </li>
+        <li class="md-nav__item"><a href="#module-cliconf.ext_inspect" class="md-nav__link">cliconf.ext_inspect module</a>
+        </li>
         <li class="md-nav__item"><a href="#module-cliconf.ext_pyappconf" class="md-nav__link">cliconf.ext_pyappconf module</a>
         </li>
         <li class="md-nav__item"><a href="#module-cliconf.ext_typer" class="md-nav__link">cliconf.ext_typer module</a>
@@ -426,6 +446,8 @@
         <li class="md-nav__item"><a href="#module-cliconf.main" class="md-nav__link">cliconf.main module</a>
         </li>
         <li class="md-nav__item"><a href="#module-cliconf.options" class="md-nav__link">cliconf.options module</a>
+        </li>
+        <li class="md-nav__item"><a href="#module-cliconf.py_api" class="md-nav__link">cliconf.py_api module</a>
         </li>
         <li class="md-nav__item"><a href="#module-cliconf.settings" class="md-nav__link">cliconf.settings module</a>
         </li>
@@ -464,6 +486,15 @@
 <dt class="sig sig-object py" id="cliconf.arg_store.ArgumentStore.add_command">
 <span class="sig-name descname"><span class="pre">add_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prog_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/arg_store.html#ArgumentStore.add_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.arg_store.ArgumentStore.add_command" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cliconf.arg_store.ArgumentStore.args_are_stored_for">
+<span class="sig-name descname"><span class="pre">args_are_stored_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prog_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/arg_store.html#ArgumentStore.args_are_stored_for"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.arg_store.ArgumentStore.args_are_stored_for" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cliconf.arg_store.ArgumentStore.commands">
 <span class="sig-name descname"><span class="pre">commands</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#cliconf.arg_store.CommandArgs" title="cliconf.arg_store.CommandArgs"><span class="pre">CommandArgs</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cliconf.arg_store.ArgumentStore.commands" title="Permalink to this definition">¶</a></dt>
@@ -585,6 +616,22 @@ to inspect the passed arguments and load from config.</p>
 </dl>
 </dd></dl>
 </section>
+<section id="module-cliconf.ext_inspect">
+<span id="cliconf-ext-inspect-module"></span><h2 id="module-cliconf.ext_inspect">cliconf.ext_inspect module<a class="headerlink" href="#module-cliconf.ext_inspect" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="cliconf.ext_inspect.get_function_args">
+<span class="sig-prename descclassname"><span class="pre">cliconf.ext_inspect.</span></span><span class="sig-name descname"><span class="pre">get_function_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/ext_inspect.html#get_function_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.ext_inspect.get_function_args" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="cliconf.ext_inspect.get_function_params">
+<span class="sig-prename descclassname"><span class="pre">cliconf.ext_inspect.</span></span><span class="sig-name descname"><span class="pre">get_function_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">make_optional</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/ext_inspect.html#get_function_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.ext_inspect.get_function_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</section>
 <section id="module-cliconf.ext_pyappconf">
 <span id="cliconf-ext-pyappconf-module"></span><h2 id="module-cliconf.ext_pyappconf">cliconf.ext_pyappconf module<a class="headerlink" href="#module-cliconf.ext_pyappconf" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
@@ -697,6 +744,20 @@ for what users would typically want to use in a CLI application.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Option</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+</section>
+<section id="module-cliconf.py_api">
+<span id="cliconf-py-api-module"></span><h2 id="module-cliconf.py_api">cliconf.py_api module<a class="headerlink" href="#module-cliconf.py_api" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="cliconf.py_api.execute_cliconf_func_as_python_func">
+<span class="sig-prename descclassname"><span class="pre">cliconf.py_api.</span></span><span class="sig-name descname"><span class="pre">execute_cliconf_func_as_python_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/py_api.html#execute_cliconf_func_as_python_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.py_api.execute_cliconf_func_as_python_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a cliconf function as a normal python function.</p>
+<p>Unwraps any typer options and arguments that may be used as defaults.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

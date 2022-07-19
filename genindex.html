@@ -46,7 +46,7 @@
   
   
   
-    <title>Index &#8212; cliconf 1.0.0a9 documentation</title>
+    <title>Index &#8212; cliconf 1.0.0a10 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/material.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -88,7 +88,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="index.html" title="cliconf 1.0.0a9 documentation"
+        <a href="index.html" title="cliconf 1.0.0a10 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -174,7 +174,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="index.html" class="md-tabs__link">cliconf 1.0.0a9 documentation</a></li>
+          <li class="md-tabs__item"><a href="index.html" class="md-tabs__link">cliconf 1.0.0a10 documentation</a></li>
       </ul>
     </div>
   </nav>
@@ -186,13 +186,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="index.html" title="cliconf 1.0.0a9 documentation" class="md-nav__button md-logo">
+    <a href="index.html" title="cliconf 1.0.0a10 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="index.html"
-       title="cliconf 1.0.0a9 documentation">cliconf</a>
+       title="cliconf 1.0.0a10 documentation">cliconf</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/cliconf" title="Go to repository" class="md-source" data-md-source="github">
@@ -293,9 +293,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/cliconf.html#cliconf.arg_store.ArgumentStore.add_command">add_command() (cliconf.arg_store.ArgumentStore method)</a>
 </li>
+      <li><a href="api/cliconf.html#cliconf.testing.CLIRunner.invoke.params.args">args (cliconf.testing.CLIRunner.invoke parameter)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/cliconf.html#cliconf.testing.CLIRunner.invoke.params.args">args (cliconf.testing.CLIRunner.invoke parameter)</a>
+      <li><a href="api/cliconf.html#cliconf.arg_store.ArgumentStore.args_are_stored_for">args_are_stored_for() (cliconf.arg_store.ArgumentStore method)</a>
 </li>
       <li><a href="api/cliconf.html#cliconf.arg_store.ArgumentStore">ArgumentStore (class in cliconf.arg_store)</a>
 </li>
@@ -373,6 +375,13 @@
 </li>
       </ul></li>
       <li>
+    cliconf.ext_inspect
+
+      <ul>
+        <li><a href="api/cliconf.html#module-cliconf.ext_inspect">module</a>
+</li>
+      </ul></li>
+      <li>
     cliconf.ext_pyappconf
 
       <ul>
@@ -407,6 +416,13 @@
 
       <ul>
         <li><a href="api/cliconf.html#module-cliconf.options">module</a>
+</li>
+      </ul></li>
+      <li>
+    cliconf.py_api
+
+      <ul>
+        <li><a href="api/cliconf.html#module-cliconf.py_api">module</a>
 </li>
       </ul></li>
       <li>
@@ -465,9 +481,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/cliconf.html#cliconf.testing.CLIRunner.invoke.params.env">env (cliconf.testing.CLIRunner.invoke parameter)</a>
 </li>
+      <li><a href="api/cliconf.html#cliconf.logger.LoggingConfig.Config.env_prefix">env_prefix (cliconf.logger.LoggingConfig.Config attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/cliconf.html#cliconf.logger.LoggingConfig.Config.env_prefix">env_prefix (cliconf.logger.LoggingConfig.Config attribute)</a>
+      <li><a href="api/cliconf.html#cliconf.py_api.execute_cliconf_func_as_python_func">execute_cliconf_func_as_python_func() (in module cliconf.py_api)</a>
 </li>
       <li><a href="api/cliconf.html#cliconf.testing.CLIRunner.invoke.params.extra">extra (cliconf.testing.CLIRunner.invoke parameter)</a>
 </li>
@@ -489,11 +507,15 @@
 </li>
       <li><a href="api/cliconf.html#cliconf.ext_typer.get_arg_names_that_can_be_processed_by_typer">get_arg_names_that_can_be_processed_by_typer() (in module cliconf.ext_typer)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/cliconf.html#cliconf.command.get_command">get_command() (in module cliconf.command)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/cliconf.html#cliconf.command_name.get_command_name">get_command_name() (in module cliconf.command_name)</a>
+</li>
+      <li><a href="api/cliconf.html#cliconf.ext_inspect.get_function_args">get_function_args() (in module cliconf.ext_inspect)</a>
+</li>
+      <li><a href="api/cliconf.html#cliconf.ext_inspect.get_function_params">get_function_params() (in module cliconf.ext_inspect)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -557,6 +579,8 @@
 </li>
         <li><a href="api/cliconf.html#module-cliconf.dynamic_config_name">cliconf.dynamic_config_name</a>
 </li>
+        <li><a href="api/cliconf.html#module-cliconf.ext_inspect">cliconf.ext_inspect</a>
+</li>
         <li><a href="api/cliconf.html#module-cliconf.ext_pyappconf">cliconf.ext_pyappconf</a>
 </li>
         <li><a href="api/cliconf.html#module-cliconf.ext_typer">cliconf.ext_typer</a>
@@ -566,6 +590,8 @@
         <li><a href="api/cliconf.html#module-cliconf.main">cliconf.main</a>
 </li>
         <li><a href="api/cliconf.html#module-cliconf.options">cliconf.options</a>
+</li>
+        <li><a href="api/cliconf.html#module-cliconf.py_api">cliconf.py_api</a>
 </li>
         <li><a href="api/cliconf.html#module-cliconf.settings">cliconf.settings</a>
 </li>

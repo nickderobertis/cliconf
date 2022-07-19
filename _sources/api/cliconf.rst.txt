@@ -57,6 +57,14 @@ cliconf.dynamic\_config\_name module
    :undoc-members:
    :show-inheritance:
 
+cliconf.ext\_inspect module
+---------------------------
+
+.. automodule:: cliconf.ext_inspect
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 cliconf.ext\_pyappconf module
 -----------------------------
 
@@ -93,6 +101,14 @@ cliconf.options module
 ----------------------
 
 .. automodule:: cliconf.options
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+cliconf.py\_api module
+----------------------
+
+.. automodule:: cliconf.py_api
    :members:
    :undoc-members:
    :show-inheritance:
