@@ -65,6 +65,9 @@ def configure(
                     config = model_cls.load_or_create(model_kwargs=user_passed_data)
             else:
                 config = model_cls.load_or_create(model_kwargs=user_passed_data)
+            # Clear the args store. This shouldn't matter in normal usage, but it helps
+            # with testing.
+            ARGS_STORE.remove_command(get_command_name(func.__name__))
             return func(**model_as_dict(config))
 
         # Attach the generated config model class to the function, so it can be imported in
