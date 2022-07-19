@@ -7,12 +7,13 @@ from typing import (
     Optional,
     Tuple,
     Type,
-    TypeGuard,
     Union,
     get_args,
     get_origin,
     no_type_check,
 )
+
+from typing_extensions import TypeGuard
 
 from cliconf.ext_typer import is_typer_parameter_info
 
