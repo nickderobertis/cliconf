@@ -1,8 +1,6 @@
 from types import FunctionType
 from typing import Any
 
-from typer.models import ArgumentInfo, OptionInfo
-
 from cliconf.ext_inspect import get_function_args, get_function_params
 
 
@@ -23,12 +21,3 @@ def execute_cliconf_func_as_python_func(func: FunctionType, *args, **kwargs) -> 
     }
     new_kwargs = {**defaults_without_args, **kwargs}
     return func(*args, **new_kwargs)
-
-
-def _extract_value_from_maybe_typer_option_or_argument(value: Any) -> Any:
-    """
-    Extract the value from a maybe typer option or argument.
-    """
-    if isinstance(value, (OptionInfo, ArgumentInfo)):
-        return value.default
-    return value
