@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Callable, Optional, Tuple
+from typing import Any, Callable, Optional, Tuple
 
 import pytest
 import typer
@@ -169,6 +169,26 @@ def my_cli_func_all_optional_json(
     b: int = typer.Option(123, help="b help"),
 ):
     print(a, b)
+
+
+single_command_injected_model_yaml_cliconf = CLIConf(
+    name="single_command_injected_model_yaml"
+)
+
+
+@single_command_injected_model_yaml_cliconf.command()
+@configure(
+    pyappconf_settings=SETTINGS_ONE_YAML,
+    cliconf_settings=CLIConfSettings(inject_model=True),
+)
+def my_cli_func_one_injected_model_yaml(
+    model,
+    a: str,
+    b: int = typer.Argument(..., help="b help"),
+    c: float = typer.Option(3.2, help="c help"),
+):
+    print(model, a, b, c)
+    return model
 
 
 if __name__ == "__main__":

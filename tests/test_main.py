@@ -12,6 +12,7 @@ from tests.config import CONFIGS_DIR, NESTED_OVERRIDES_CONFIGS_DIR, PLAIN_CONFIG
 from tests.dirutils import change_directory_to
 from tests.fixtures.cliconfs import (
     multi_command_shared_config_yaml_cliconf,
+    single_command_injected_model_yaml_cliconf,
     single_command_multi_format_cliconf,
     single_command_nested_config_yaml_cliconf,
     single_command_py_cliconf,
@@ -177,3 +178,9 @@ def test_single_command_cliconf_writes_config_file_yaml(
     input_file = PLAIN_CONFIGS_DIR / file_name
     output_file = temp_path / file_name
     assert input_file.read_text() == output_file.read_text()
+
+
+def test_cliconf_injects_model():
+    result = run(single_command_injected_model_yaml_cliconf, ["a", "2"])
+    assert "a 2 45.6" in result.stdout
+    assert "a='a' b=2 c=45.6" in result.stdout

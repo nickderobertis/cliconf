@@ -17,13 +17,16 @@ def create_dynamic_config_class_from_function(
     func: FunctionType,
     settings: AppConfig,
     base_cls: Optional[Type[BaseConfig]] = None,
+    model_is_injected: bool = False,
     make_optional: bool = True,
 ) -> Type[BaseConfig]:
     """
     Create a BaseConfig class from a function.
     """
     base_cls = base_cls or create_cli_base_config_class(BaseConfig, settings)
-    params = get_function_params(func, make_optional=make_optional)
+    params = get_function_params(
+        func, make_optional=make_optional, model_is_injected=model_is_injected
+    )
 
     with warnings.catch_warnings():
         warnings.filterwarnings(

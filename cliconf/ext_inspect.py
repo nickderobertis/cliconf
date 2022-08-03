@@ -21,6 +21,7 @@ from cliconf.ext_typer import is_typer_parameter_info
 @no_type_check
 def get_function_params(
     func: FunctionType,
+    model_is_injected: bool = False,
     make_optional: bool = True,
 ) -> Dict[str, Tuple[Type, Any]]:
     (
@@ -34,6 +35,10 @@ def get_function_params(
     ) = inspect.getfullargspec(func)
     defaults = defaults or []
     args = args or []
+
+    if model_is_injected:
+        # Model is first argument, ensure it isn't recursively included in itself
+        args = args[1:]
 
     non_default_args = len(args) - len(defaults)
     defaults = (...,) * non_default_args + defaults

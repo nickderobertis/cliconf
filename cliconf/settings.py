@@ -13,6 +13,7 @@ class CLIConfSettings(BaseModel):
     base_cls: Optional[Type[BaseConfig]] = None
     make_fields_optional: bool = True
     recursive_loading: bool = False
+    inject_model: bool = False
 
 
 DEFAULT_SETTINGS = CLIConfSettings()

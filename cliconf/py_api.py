@@ -4,7 +4,9 @@ from typing import Any
 from cliconf.ext_inspect import get_function_args, get_function_params
 
 
-def execute_cliconf_func_as_python_func(func: FunctionType, *args, **kwargs) -> Any:
+def execute_cliconf_func_as_python_func(
+    func: FunctionType, model_is_injected: bool, *args, **kwargs
+) -> Any:
     """
     Execute a cliconf function as a normal python function.
 
@@ -12,7 +14,7 @@ def execute_cliconf_func_as_python_func(func: FunctionType, *args, **kwargs) -> 
     """
     arg_spec = get_function_args(func)
     user_passed_arg_names = [arg_name for arg, arg_name in zip(args, arg_spec)]
-    params = get_function_params(func)
+    params = get_function_params(func, model_is_injected=model_is_injected)
     defaults_from_func = {name: value for name, (_, value) in params.items()}
     defaults_without_args = {
         key: value

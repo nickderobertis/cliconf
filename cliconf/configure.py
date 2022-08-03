@@ -46,13 +46,16 @@ def configure(
             func,
             pyappconf_settings,
             cliconf_settings.base_cls,
+            model_is_injected=cliconf_settings.inject_model,
             make_optional=cliconf_settings.make_fields_optional,
         )
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             if not _is_executing_from_cli(func):
-                return execute_cliconf_func_as_python_func(func, *args, **kwargs)
+                return execute_cliconf_func_as_python_func(
+                    func, cliconf_settings.inject_model, *args, **kwargs
+                )
 
             # Load the config, overriding with any user passed args
             user_passed_data = filter_func_args_and_kwargs_to_get_user_passed_data(
@@ -68,6 +71,11 @@ def configure(
             # Clear the args store. This shouldn't matter in normal usage, but it helps
             # with testing.
             ARGS_STORE.remove_command(get_command_name(func.__name__))
+
+            # If injecting model, provide that as the first argument
+            if cliconf_settings.inject_model:
+                return func(config, **model_as_dict(config))
+
             return func(**model_as_dict(config))
 
         # Attach the generated config model class to the function, so it can be imported in

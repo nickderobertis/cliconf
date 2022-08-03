@@ -1,3 +1,4 @@
+import inspect
 from typing import Any, Callable, List
 
 import click
@@ -13,7 +14,11 @@ def get_arg_names_that_can_be_processed_by_typer(
     can_process: List[str] = []
     parameters = get_params_from_function(callback)
     for param_name, param in parameters.items():
+        # Never process Click context
         if lenient_issubclass(param.annotation, click.Context):
+            continue
+        # Don't process arguments without types
+        if param.annotation is inspect._empty:
             continue
         try:
             _, _ = get_click_param(param)
@@ -35,21 +40,3 @@ def is_typer_parameter_info(argument: Any) -> TypeGuard[typer.models.ParameterIn
             hasattr(argument, "is_eager"),
         ]
     )
-
-
-# def is_typer_option_info(argument: Any) -> TypeGuard[typer.models.OptionInfo]:
-#     if not _is_typer_parameter_info(argument):
-#         return False
-#     return all([
-#         hasattr(argument, "prompt"),
-#         hasattr(argument, "confirmation_prompt"),
-#         hasattr(argument, "hide_input"),
-#         hasattr(argument, "is_flag"),
-#     ])
-#
-# def is_typer_argument_info(argument: Any) -> TypeGuard[typer.models.ArgumentInfo]:
-#     if not _is_typer_parameter_info(argument):
-#         return False
-#     if is_typer_option_info(argument):
-#         return False
-#     return True
