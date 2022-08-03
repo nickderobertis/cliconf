@@ -46,7 +46,7 @@
   
   
   
-    <title>cliconf.configure &#8212; cliconf 1.0.0a10 documentation</title>
+    <title>cliconf.configure &#8212; cliconf 1.0.0a11 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
@@ -88,7 +88,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../../index.html" title="cliconf 1.0.0a10 documentation"
+        <a href="../../index.html" title="cliconf 1.0.0a11 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -174,7 +174,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">cliconf 1.0.0a10 documentation</a></li>
+          <li class="md-tabs__item"><a href="../../index.html" class="md-tabs__link">cliconf 1.0.0a11 documentation</a></li>
           <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Module code</a></li>
       </ul>
     </div>
@@ -187,13 +187,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../../index.html" title="cliconf 1.0.0a10 documentation" class="md-nav__button md-logo">
+    <a href="../../index.html" title="cliconf 1.0.0a11 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../../index.html"
-       title="cliconf 1.0.0a10 documentation">cliconf</a>
+       title="cliconf 1.0.0a11 documentation">cliconf</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/cliconf" title="Go to repository" class="md-source" data-md-source="github">
@@ -310,13 +310,16 @@
             <span class="n">func</span><span class="p">,</span>
             <span class="n">pyappconf_settings</span><span class="p">,</span>
             <span class="n">cliconf_settings</span><span class="o">.</span><span class="n">base_cls</span><span class="p">,</span>
+            <span class="n">model_is_injected</span><span class="o">=</span><span class="n">cliconf_settings</span><span class="o">.</span><span class="n">inject_model</span><span class="p">,</span>
             <span class="n">make_optional</span><span class="o">=</span><span class="n">cliconf_settings</span><span class="o">.</span><span class="n">make_fields_optional</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_executing_from_cli</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">execute_cliconf_func_as_python_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">execute_cliconf_func_as_python_func</span><span class="p">(</span>
+                    <span class="n">func</span><span class="p">,</span> <span class="n">cliconf_settings</span><span class="o">.</span><span class="n">inject_model</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
 
             <span class="c1"># Load the config, overriding with any user passed args</span>
             <span class="n">user_passed_data</span> <span class="o">=</span> <span class="n">filter_func_args_and_kwargs_to_get_user_passed_data</span><span class="p">(</span>
@@ -332,6 +335,11 @@
             <span class="c1"># Clear the args store. This shouldn't matter in normal usage, but it helps</span>
             <span class="c1"># with testing.</span>
             <span class="n">ARGS_STORE</span><span class="o">.</span><span class="n">remove_command</span><span class="p">(</span><span class="n">get_command_name</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+
+            <span class="c1"># If injecting model, provide that as the first argument</span>
+            <span class="k">if</span> <span class="n">cliconf_settings</span><span class="o">.</span><span class="n">inject_model</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">model_as_dict</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
+
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">**</span><span class="n">model_as_dict</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
 
         <span class="c1"># Attach the generated config model class to the function, so it can be imported in</span>

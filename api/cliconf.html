@@ -47,7 +47,7 @@
   
   
   
-    <title>cliconf package &#8212; cliconf 1.0.0a10 documentation</title>
+    <title>cliconf package &#8212; cliconf 1.0.0a11 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/material.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -90,7 +90,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="cliconf 1.0.0a10 documentation"
+        <a href="../index.html" title="cliconf 1.0.0a11 documentation"
            class="md-header-nav__button md-logo">
           
             <i class="md-icon">&#xe869</i>
@@ -176,7 +176,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">cliconf 1.0.0a10 documentation</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">cliconf 1.0.0a11 documentation</a></li>
           <li class="md-tabs__item"><a href="modules.html" class="md-tabs__link">cliconf</a></li>
       </ul>
     </div>
@@ -189,13 +189,13 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="cliconf 1.0.0a10 documentation" class="md-nav__button md-logo">
+    <a href="../index.html" title="cliconf 1.0.0a11 documentation" class="md-nav__button md-logo">
       
         <i class="md-icon">&#xe869</i>
       
     </a>
     <a href="../index.html"
-       title="cliconf 1.0.0a10 documentation">cliconf</a>
+       title="cliconf 1.0.0a11 documentation">cliconf</a>
   </label>
     <div class="md-nav__source">
       <a href="https://github.com/nickderobertis/cliconf" title="Go to repository" class="md-source" data-md-source="github">
@@ -569,7 +569,7 @@ to inspect the passed arguments and load from config.</p>
 <span id="cliconf-configure-module"></span><h2 id="module-cliconf.configure">cliconf.configure module<a class="headerlink" href="#module-cliconf.configure" title="Permalink to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="cliconf.configure.configure">
-<span class="sig-prename descclassname"><span class="pre">cliconf.configure.</span></span><span class="sig-name descname"><span class="pre">configure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pyappconf_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cliconf_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">CLIConfSettings(generate_config_option_name='config-gen',</span> <span class="pre">base_cls=None,</span> <span class="pre">make_fields_optional=True,</span> <span class="pre">recursive_loading=False)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/configure.html#configure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.configure.configure" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cliconf.configure.</span></span><span class="sig-name descname"><span class="pre">configure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pyappconf_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cliconf_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">CLIConfSettings(generate_config_option_name='config-gen',</span> <span class="pre">base_cls=None,</span> <span class="pre">make_fields_optional=True,</span> <span class="pre">recursive_loading=False,</span> <span class="pre">inject_model=False)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/configure.html#configure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.configure.configure" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></p>
@@ -591,7 +591,7 @@ to inspect the passed arguments and load from config.</p>
 <span id="cliconf-dynamic-config-module"></span><h2 id="module-cliconf.dynamic_config">cliconf.dynamic_config module<a class="headerlink" href="#module-cliconf.dynamic_config" title="Permalink to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="cliconf.dynamic_config.create_dynamic_config_class_from_function">
-<span class="sig-prename descclassname"><span class="pre">cliconf.dynamic_config.</span></span><span class="sig-name descname"><span class="pre">create_dynamic_config_class_from_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_cls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">make_optional</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/dynamic_config.html#create_dynamic_config_class_from_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.dynamic_config.create_dynamic_config_class_from_function" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cliconf.dynamic_config.</span></span><span class="sig-name descname"><span class="pre">create_dynamic_config_class_from_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_cls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_is_injected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">make_optional</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/dynamic_config.html#create_dynamic_config_class_from_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.dynamic_config.create_dynamic_config_class_from_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a BaseConfig class from a function.</p>
 </dd></dl>
 <dl class="py function">
@@ -629,7 +629,7 @@ to inspect the passed arguments and load from config.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="cliconf.ext_inspect.get_function_params">
-<span class="sig-prename descclassname"><span class="pre">cliconf.ext_inspect.</span></span><span class="sig-name descname"><span class="pre">get_function_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">make_optional</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/ext_inspect.html#get_function_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.ext_inspect.get_function_params" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cliconf.ext_inspect.</span></span><span class="sig-name descname"><span class="pre">get_function_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_is_injected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">make_optional</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/ext_inspect.html#get_function_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.ext_inspect.get_function_params" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </section>
 <section id="module-cliconf.ext_pyappconf">
@@ -752,7 +752,7 @@ for what users would typically want to use in a CLI application.</p>
 <span id="cliconf-py-api-module"></span><h2 id="module-cliconf.py_api">cliconf.py_api module<a class="headerlink" href="#module-cliconf.py_api" title="Permalink to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="cliconf.py_api.execute_cliconf_func_as_python_func">
-<span class="sig-prename descclassname"><span class="pre">cliconf.py_api.</span></span><span class="sig-name descname"><span class="pre">execute_cliconf_func_as_python_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/py_api.html#execute_cliconf_func_as_python_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.py_api.execute_cliconf_func_as_python_func" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cliconf.py_api.</span></span><span class="sig-name descname"><span class="pre">execute_cliconf_func_as_python_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_is_injected</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cliconf/py_api.html#execute_cliconf_func_as_python_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cliconf.py_api.execute_cliconf_func_as_python_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute a cliconf function as a normal python function.</p>
 <p>Unwraps any typer options and arguments that may be used as defaults.</p>
 <dl class="field-list simple">
@@ -776,6 +776,10 @@ for what users would typically want to use in a CLI application.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cliconf.settings.CLIConfSettings.generate_config_option_name">
 <span class="sig-name descname"><span class="pre">generate_config_option_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#cliconf.settings.CLIConfSettings.generate_config_option_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cliconf.settings.CLIConfSettings.inject_model">
+<span class="sig-name descname"><span class="pre">inject_model</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#cliconf.settings.CLIConfSettings.inject_model" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cliconf.settings.CLIConfSettings.make_fields_optional">
