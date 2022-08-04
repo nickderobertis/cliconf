@@ -1,7 +1,7 @@
 import functools
 import inspect
 from types import FunctionType
-from typing import Any, Callable, Dict, List, Type
+from typing import Any, Callable, Dict
 
 from pyappconf import AppConfig, BaseConfig
 
@@ -85,7 +85,7 @@ def configure(
         wrapper.cliconf_settings = cliconf_settings  # type: ignore
 
         # Attach the invoke function to enable e.g. my_cli_func.invoke(a=1, b=2)
-        wrapper.invoke = invoke
+        wrapper.invoke = invoke  # type: ignore
 
         # Override call signature to exclude any variables that cannot be processed by typer
         # Otherwise typer will fail while trying to create the click command.
