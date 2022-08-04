@@ -14,3 +14,9 @@ def test_cliconf_decorated_with_inject_model_executes_as_a_normal_python_functio
     mod = my_cli_func_one_injected_model_yaml.model_cls(a="a", b=2)
     result = my_cli_func_one_injected_model_yaml(mod, **model_as_dict(mod))
     assert result == mod
+
+
+def test_cliconf_decorated_with_inject_model_invokes_without_model():
+    mod = my_cli_func_one_injected_model_yaml.model_cls(a="a", b=2)
+    result = my_cli_func_one_injected_model_yaml.invoke(**model_as_dict(mod))
+    assert result == mod

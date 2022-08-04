@@ -16,23 +16,6 @@ from cliconf.py_api import execute_cliconf_func_as_python_func
 from cliconf.settings import DEFAULT_SETTINGS, CLIConfSettings
 
 
-class _ModelContainer:
-    def __init__(self):
-        # Use a mutable container so that function can mutate
-        self._models: List[Type[BaseConfig]] = []
-
-    @property
-    def model_cls(self) -> Type[BaseConfig]:
-        return self._models[0]
-
-    def set_model_cls(self, model_cls: Type[BaseConfig]):
-        if len(self._models) > 0:
-            self._models.pop()
-        self._models.append(model_cls)
-
-    model: Type[BaseConfig]
-
-
 def _is_executing_from_cli(func: FunctionType) -> bool:
     return ARGS_STORE.args_are_stored_for(get_command_name(func.__name__))
 
@@ -78,6 +61,20 @@ def configure(
 
             return func(**model_as_dict(config))
 
+        def invoke(**kwargs):
+            """
+            A more consistent API for Python. It will not have the injected model as the first argument,
+            even if that is specified in the settings. Otherwise, the arguments are the same as the CLI.
+            :param kwargs: Arguments to pass to the CLI. Do not pass the injected model, if it is an argument
+                then it will be constructed and passed automatically.
+            :return:
+            """
+            if not cliconf_settings.inject_model:
+                return wrapper(**kwargs)
+
+            model = model_cls(**kwargs)
+            return wrapper(model, **model_as_dict(model))
+
         # Attach the generated config model class to the function, so it can be imported in
         # the py config format
         wrapper.model_cls = model_cls  # type: ignore
@@ -86,6 +83,9 @@ def configure(
         # to customize the options to add the --config-gen option
         wrapper.pyappconf_settings = pyappconf_settings  # type: ignore
         wrapper.cliconf_settings = cliconf_settings  # type: ignore
+
+        # Attach the invoke function to enable e.g. my_cli_func.invoke(a=1, b=2)
+        wrapper.invoke = invoke
 
         # Override call signature to exclude any variables that cannot be processed by typer
         # Otherwise typer will fail while trying to create the click command.
